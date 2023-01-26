@@ -1,20 +1,23 @@
 import React from 'react';
 import './App.css';
-import rockGlass from './images/rockGlass.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import Login from './pages/Login';
+import store from './redux/store';
 
 function App() {
   return (
-    <div className="meals">
-      <span className="logo">TRYBE</span>
-      <object
-        className="rocksGlass"
-        type="image/svg+xml"
-        data={ rockGlass }
-      >
-        Glass
-      </object>
-    </div>
+    <BrowserRouter>
+      <Provider store={ store }>
+        <Switch>
+          <Route exact path="/" component={ Login } />
+          {/* <Route exact path="/game" component={ Game } />
+      <Route path="/settings" component={ Config } />
+      <Route path="/feedback" component={ Feedback } /> */}
+        </Switch>
+      </Provider>
+    </BrowserRouter>
   );
 }
 
