@@ -1,30 +1,86 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getFirstLetter, getIngredient, getName } from '../services/api';
 
 export class SearchBar extends Component {
+  state = {
+    radioSelected: '',
+  };
+
+  handleChange = ({ target }) => {
+    this.setState({
+      radioSelected: target.id,
+    });
+  };
+
+  handleSubmitApi = async () => {
+    const { radioSelected } = this.state;
+    // const { search } = this.props;
+    if (radioSelected === 'ingredient') {
+      await getIngredient(search);
+    } else if (radioSelected === 'name-search') {
+      await getName(search);
+    } else if (radioSelected === 'first-letter') {
+      await getFirstLetter(search);
+    }
+  };
+
   render() {
+    // const { search } = this.props;
+    console.log(search);
+    const { radioSelected } = this.state;
     return (
-      <form>
+      <>
         <label htmlFor="ingredient">
-          Ingredientes
-          <input id="ingredient" data-testid="ingredient-search-radio" type="radio" />
+          Ingredient
+          <input
+            name="radios-group"
+            value={ radioSelected }
+            id="ingredient"
+            data-testid="ingredient-search-radio"
+            type="radio"
+            onChange={ this.handleChange }
+          />
         </label>
 
         <label htmlFor="name-search">
-          Nome
-          <input id="name-search" data-testid="name-search-radio" type="radio" />
+          Name
+          <input
+            name="radios-group"
+            value={ radioSelected }
+            id="name-search"
+            data-testid="name-search-radio"
+            type="radio"
+            onChange={ this.handleChange }
+          />
         </label>
 
         <label htmlFor="first-letter">
-          Primeira Letra
-          <input id="first-letter" data-testid="first-letter-search-radio" type="radio" />
+          First letter
+          <input
+            name="radios-group"
+            value={ radioSelected }
+            id="first-letter"
+            data-testid="first-letter-search-radio"
+            type="radio"
+            onChange={ this.handleChange }
+          />
         </label>
 
-        <button data-testid="exec-search-btn">
-          Submit
+        <button
+          data-testid="exec-search-btn"
+          onClick={ this.handleSubmitApi }
+        >
+          Search
         </button>
-      </form>
+      </>
     );
   }
 }
 
-export default SearchBar;
+const mapStateToProps = (globalState) => ({
+  search: globalState.searchValueReducer.search,
+  // history: globalState.setHistoryReducer.history,
+});
+
+export default connect(mapStateToProps)(SearchBar);
