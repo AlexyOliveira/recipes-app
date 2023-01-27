@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import profile from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import { SearchBar } from './SearchBar';
 
 class Header extends Component {
   state = {
@@ -44,6 +45,7 @@ class Header extends Component {
             </button>
           )}
         {searchInput && <input data-testid="search-input" type="text" />}
+        <SearchBar />
       </div>
     );
   }
