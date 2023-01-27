@@ -37,7 +37,6 @@ class Login extends Component {
   };
 
   render() {
-    console.log(this.props);
     const { password, email, isRequired } = this.state;
     return (
       <form>
