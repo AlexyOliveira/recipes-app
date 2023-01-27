@@ -5,10 +5,12 @@ import PropTypes from 'prop-types';
 import profile from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import { SearchBar } from './SearchBar';
+import { searchValue } from '../redux/actions';
 
 class Header extends Component {
   state = {
     searchInput: false,
+    searchChange: '',
   };
 
   handleProfileSubmit = () => {
@@ -24,8 +26,8 @@ class Header extends Component {
   };
 
   render() {
-    const { title } = this.props;
-    const { searchInput } = this.state;
+    // const { title, dispatch } = this.props;
+    const { searchInput, searchChange } = this.state;
     console.log(this.props);
     return (
       <div>
@@ -37,15 +39,24 @@ class Header extends Component {
           && title !== 'Favorite Recipes'
           && title !== 'Done Recipes'
           && (
-            <button
-              type="button"
-              onClick={ this.handleSearchSubmit }
-            >
-              <img data-testid="search-top-btn" src={ searchIcon } alt="search-icon" />
-            </button>
+            <form>
+              <SearchBar />
+              <button
+                type="button"
+                onClick={ this.handleSearchSubmit }
+              >
+                <img data-testid="search-top-btn" src={ searchIcon } alt="search-icon" />
+              </button>
+            </form>
           )}
-        {searchInput && <input data-testid="search-input" type="text" />}
-        <SearchBar />
+        {searchInput && <input
+          value={ searchChange }
+          onChange={ ({ target }) => this.setState({
+            searchChange: target.value,
+          }, () => dispatch(searchValue(target.value))) }
+          data-testid="search-input"
+          type="text"
+        />}
       </div>
     );
   }
@@ -57,7 +68,7 @@ const mapStateToProps = (globalState) => ({
 });
 
 Header.propTypes = {
-  title: PropTypes.string.isRequired,
+  // title: PropTypes.string.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
