@@ -4,13 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Login from './pages/Login';
-import store from './redux/store';
 import RecipeDetails from './pages/RecipeDetails';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Meals from './pages/Meals';
 import Drinks from './pages/Drinks';
+import store from './redux/store';
 
 function App() {
   console.log();
@@ -39,6 +39,7 @@ function App() {
         </Switch>
       </Provider>
     </BrowserRouter>
+
   );
 }
 

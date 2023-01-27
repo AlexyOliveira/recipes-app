@@ -13,9 +13,10 @@ class Meals extends Component {
   }
 
   render() {
+    const { history } = this.props;
     return (
       <>
-        <Header />
+        <Header history={ history } />
 
         <div>Meals</div>
       </>
@@ -26,9 +27,9 @@ class Meals extends Component {
 
 Meals.propTypes = {
   dispatch: PropTypes.func.isRequired,
-//   history: PropTypes.shape({
-//     push: PropTypes.func,
-//   }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default connect()(Meals);
