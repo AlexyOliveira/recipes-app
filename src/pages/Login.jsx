@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class Login extends Component {
   state = {
@@ -32,12 +32,12 @@ class Login extends Component {
     //   isRequired: false,
     // });
     history.push('/meals');
-    console.log(this.props);
 
     localStorage.setItem('user', JSON.stringify({ email }));
   };
 
   render() {
+    console.log(this.props);
     const { password, email, isRequired } = this.state;
     return (
       <form>
