@@ -8,6 +8,7 @@ import App from '../App';
 const dataTestidEmail = 'email-input';
 const dataTestidPassword = 'password-input';
 const dataTestidLoginBtn = 'login-submit-btn';
+
 describe('Testando o componente Header', () => {
   test('Verifica se o header é renderizado corretamente na rota "/meals"', () => {
     renderWithRouter(<App />);
