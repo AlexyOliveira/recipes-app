@@ -11,10 +11,11 @@ export const getName = async (name) => {
 };
 
 export const getFirstLetter = async (firstLetter) => {
-  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${firstLetter}`);
-  const json = await response.json();
-  if (firstLetter.lenght > 1) {
-    window.alert('Your search must have only 1 (one) character');
+  if (firstLetter.length > 1) {
+    return window.alert('Your search must have only 1 (one) character');
   }
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${firstLetter}`);
+
+  const json = await response.json();
   return json;
 };
