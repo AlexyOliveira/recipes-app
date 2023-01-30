@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getFirstLetter, getIngredient, getName } from '../services/api';
 
-export class SearchBar extends Component {
+class SearchBar extends Component {
   state = {
     radioSelected: '',
   };
@@ -13,21 +14,21 @@ export class SearchBar extends Component {
     });
   };
 
-  handleSubmitApi = async () => {
+  handleSubmitApi = async (event) => {
+    event.preventDefault();
     const { radioSelected } = this.state;
-    // const { search } = this.props;
+    const { search } = this.props;
     if (radioSelected === 'ingredient') {
       await getIngredient(search);
     } else if (radioSelected === 'name-search') {
       await getName(search);
     } else if (radioSelected === 'first-letter') {
+      console.log('opa');
       await getFirstLetter(search);
     }
   };
 
   render() {
-    // const { search } = this.props;
-    console.log(search);
     const { radioSelected } = this.state;
     return (
       <>
@@ -68,6 +69,7 @@ export class SearchBar extends Component {
         </label>
 
         <button
+          type="submit"
           data-testid="exec-search-btn"
           onClick={ this.handleSubmitApi }
         >
@@ -77,6 +79,10 @@ export class SearchBar extends Component {
     );
   }
 }
+
+SearchBar.propTypes = {
+  search: PropTypes.string.isRequired,
+};
 
 const mapStateToProps = (globalState) => ({
   search: globalState.searchValueReducer.search,

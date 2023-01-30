@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import profile from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
-import { SearchBar } from './SearchBar';
+import SearchBar from './SearchBar';
 import { searchValue } from '../redux/actions';
 
 class Header extends Component {
@@ -26,9 +26,9 @@ class Header extends Component {
   };
 
   render() {
-    // const { title, dispatch } = this.props;
+    const { title, dispatch } = this.props;
     const { searchInput, searchChange } = this.state;
-    console.log(this.props);
+    // console.log(search)
     return (
       <div>
         <h1 data-testid="page-title">{title}</h1>
@@ -64,11 +64,13 @@ class Header extends Component {
 
 const mapStateToProps = (globalState) => ({
   title: globalState.titlePageReducer.title,
+  search: globalState.searchValueReducer.search,
   // history: globalState.setHistoryReducer.history,
 });
 
 Header.propTypes = {
-  // title: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
