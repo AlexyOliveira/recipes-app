@@ -13,23 +13,41 @@ class Meals extends Component {
   }
 
   render() {
-    const { history } = this.props;
+    const { history, meals } = this.props;
     return (
       <>
         <Header history={ history } />
 
-        <div>Meals</div>
+        <div>
+          {meals.map((meal, index) => (
+            <div key={ meal.idMeal } data-testid={ `${index}-recipe-card` }>
+              <img
+                data-testid={ `${index}-card-img` }
+                src={ meal.strMealThumb }
+                alt=""
+              />
+              <h2 data-testid={ `${index}-card-name` }>{meal.strMeal}</h2>
+            </div>
+          ))}
+
+        </div>
       </>
 
     );
   }
 }
 
+const mapStateToProps = (globalState) => ({
+  meals: globalState.mealResultsReducer.meals,
+  // history: globalState.setHistoryReducer.history,
+});
+
 Meals.propTypes = {
+  meals: PropTypes.arrayOf(PropTypes.shape({ strArea: PropTypes.string })).isRequired,
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
 };
 
-export default connect()(Meals);
+export default connect(mapStateToProps)(Meals);
