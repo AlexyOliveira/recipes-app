@@ -26,7 +26,7 @@ class Header extends Component {
   };
 
   render() {
-    const { title, dispatch } = this.props;
+    const { title, dispatch, history } = this.props;
     const { searchInput, searchChange } = this.state;
     // console.log(search)
     return (
@@ -40,7 +40,7 @@ class Header extends Component {
           && title !== 'Done Recipes'
           && (
             <form>
-              <SearchBar />
+              <SearchBar history={ history } />
               <button
                 type="button"
                 onClick={ this.handleSearchSubmit }

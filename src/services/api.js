@@ -12,7 +12,7 @@ export const getName = async (name) => {
 
 export const getFirstLetter = async (firstLetter) => {
   if (firstLetter.length > 1) {
-    return window.alert('Your search must have only 1 (one) character');
+    global.alert('Your search must have only 1 (one) character');
   }
   const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${firstLetter}`);
 
