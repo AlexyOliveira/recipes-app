@@ -27,21 +27,30 @@ class SearchBar extends Component {
       const { search } = this.props;
       if (radioSelected === 'ingredient') {
         const ingredientResults = await getIngredient(search);
-        this.handleResultMeals(ingredientResults);
-        if (ingredientResults.meals.length === 1) {
-          history.push(`/meals/${ingredientResults.meals[0].idMeals}`);
+
+        try {
+          this.handleResultMeals(ingredientResults);
+          this.mealsRedirect(ingredientResults);
+        } catch (error) {
+          return error;
         }
       } else if (radioSelected === 'name-search') {
         const nameResults = await getName(search);
-        this.handleResultMeals(nameResults);
-        if (nameResults.meals.length === 1) {
-          history.push(`/meals/${nameResults.meals[0].idMeal}`);
+
+        try {
+          this.handleResultMeals(nameResults);
+          this.mealsRedirect(nameResults);
+        } catch (error) {
+          return error;
         }
       } else if (radioSelected === 'first-letter') {
         const firstLetterResults = await getFirstLetter(search);
-        this.handleResultMeals(firstLetterResults);
-        if (firstLetterResults.meals.length === 1) {
-          history.push(`/meals/${firstLetterResults.meals[0].idMeals}`);
+
+        try {
+          this.handleResultMeals(firstLetterResults);
+          this.mealsRedirect(firstLetterResults);
+        } catch (error) {
+          return error;
         }
       }
     }
@@ -56,23 +65,43 @@ class SearchBar extends Component {
       const { search } = this.props;
       if (radioSelected === 'ingredient') {
         const drinkIngredientResults = await getDrinkIngredient(search);
-        this.handleResultDrinks(drinkIngredientResults);
-        if (drinkIngredientResults.drinks.length === 1) {
-          history.push(`/drinks/${drinkIngredientResults.drinks[0].idDrink}`);
+        try {
+          this.handleResultDrinks(drinkIngredientResults);
+          this.drinksRedirect(drinkIngredientResults);
+        } catch (error) {
+          return error;
         }
       } else if (radioSelected === 'name-search') {
         const drinkNameResults = await getDrinkName(search);
-        this.handleResultDrinks(drinkNameResults);
-        if (drinkNameResults.drinks.length === 1) {
-          history.push(`/drinks/${drinkNameResults.drinks[0].idDrink}`);
+        try {
+          this.handleResultDrinks(drinkNameResults);
+          this.drinksRedirect(drinkNameResults);
+        } catch (error) {
+          return error;
         }
       } else if (radioSelected === 'first-letter') {
         const drinkFirstLetterResults = await getDrinkFirstLetter(search);
-        this.handleResultDrinks(drinkFirstLetterResults);
-        if (drinkFirstLetterResults.drinks.length === 1) {
-          history.push(`/drinks/${drinkFirstLetterResults.drinks[0].idDrink}`);
+        try {
+          this.handleResultDrinks(drinkFirstLetterResults);
+          this.drinksRedirect(drinkFirstLetterResults);
+        } catch (error) {
+          return error;
         }
       }
+    }
+  };
+
+  drinksRedirect = (qualquer) => {
+    const { history } = this.props;
+    if (qualquer.drinks.length === 1) {
+      history.push(`/drinks/${qualquer.drinks[0].idDrink}`);
+    }
+  };
+
+  mealsRedirect = (qualquer) => {
+    const { history } = this.props;
+    if (qualquer.meals.length === 1) {
+      history.push(`/meals/${qualquer.meals[0].idMeal}`);
     }
   };
 
