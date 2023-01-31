@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { pageTitle } from '../redux/actions';
 
+const alexandre = 'ok';
+console.log(alexandre);
+
 class Drinks extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
