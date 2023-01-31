@@ -1,12 +1,12 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { act } from 'react-dom/test-utils';
-import renderWithRouter from './helpers/renderWithRouterAndRedux';
-import mealIngredients from '../../cypress/mocks/mealIngredients';
-import drinkIngredients from '../../cypress/mocks/drinkIngredients';
-import oneDrink from '../../cypress/mocks/oneDrink';
-import oneMeal from '../../cypress/mocks/oneMeal';
+// import { act } from 'react-dom/test-utils';
+// import renderWithRouter from './helpers/renderWithRouterAndRedux';
+// import mealIngredients from '../../cypress/mocks/mealIngredients';
+// import drinkIngredients from '../../cypress/mocks/drinkIngredients';
+// import oneDrink from '../../cypress/mocks/oneDrink';
+// import oneMeal from '../../cypress/mocks/oneMeal';
 import App from '../App';
 
 const dataTestidEmail = 'email-input';
