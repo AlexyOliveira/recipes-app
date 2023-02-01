@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Recipes from '../components/Recipes';
 import { pageTitle } from '../redux/actions';
-
-const alexandre = 'ok';
-console.log(alexandre);
 
 class Drinks extends Component {
   componentDidMount() {
@@ -17,23 +15,14 @@ class Drinks extends Component {
 
   render() {
     const { history, drinks } = this.props;
-    console.log(drinks);
     return (
       <>
-        <Header history={ history } />
         <div>
-          {drinks.map((drink, index) => (
-            <div key={ drink.idDrink } data-testid={ `${index}-recipe-card` }>
-              <img
-                data-testid={ `${index}-card-img` }
-                src={ drink.strDrinkThumb }
-                alt=""
-              />
-              <h2 data-testid={ `${index}-card-name` }>{drink.strDrink}</h2>
-            </div>
-          ))}
+          <Header history={ history } />
+          <Recipes value={ drinks } />
         </div>
         <Footer />
+
       </>
     );
   }
