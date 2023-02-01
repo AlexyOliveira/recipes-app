@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { pageTitle } from '../redux/actions';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 class Profile extends Component {
   componentDidMount() {
@@ -16,6 +17,7 @@ class Profile extends Component {
       <>
         <Header />
         <div>Profile</div>
+        <Footer />
       </>
 
     );

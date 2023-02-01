@@ -2,6 +2,7 @@ export const PAGE_TITLE = 'PAGE_TITLE';
 export const SEARCH_VALUE = 'SEARCH_VALUE';
 export const DRINK_RESULTS = 'DRINK_RESULTS';
 export const MEAL_RESULTS = 'DRINK_RESULTS';
+export const GLOBAL_HISTORY = 'GLOBAL_HISTORY';
 
 export const pageTitle = (title) => ({
   type: PAGE_TITLE,
@@ -21,4 +22,9 @@ export const drinkResults = (drinks) => ({
 export const mealResults = (meals) => ({
   type: DRINK_RESULTS,
   meals,
+});
+
+export const globalStateHistory = (history) => ({
+  type: GLOBAL_HISTORY,
+  history,
 });
