@@ -33,7 +33,6 @@ class Header extends Component {
   render() {
     const { title, dispatch, history } = this.props;
     const { searchInput, searchChange } = this.state;
-    console.log(history);
     return (
       <div>
         <h1 data-testid="page-title">{title}</h1>

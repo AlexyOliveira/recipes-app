@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Recipes from '../components/Recipes';
 import { pageTitle } from '../redux/actions';
 
 class Meals extends Component {
@@ -18,20 +19,7 @@ class Meals extends Component {
     return (
       <>
         <Header history={ history } />
-
-        <div>
-          {meals.map((meal, index) => (
-            <div key={ meal.idMeal } data-testid={ `${index}-recipe-card` }>
-              <img
-                data-testid={ `${index}-card-img` }
-                src={ meal.strMealThumb }
-                alt=""
-              />
-              <h2 data-testid={ `${index}-card-name` }>{meal.strMeal}</h2>
-            </div>
-          ))}
-
-        </div>
+        <Recipes value={ meals } />
         <Footer />
       </>
 
