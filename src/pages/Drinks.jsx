@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { pageTitle } from '../redux/actions';
 
 const alexandre = 'ok';
@@ -32,6 +33,7 @@ class Drinks extends Component {
             </div>
           ))}
         </div>
+        <Footer />
       </>
     );
   }
