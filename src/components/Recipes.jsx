@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 class Recipes extends Component {
   render() {
     const { value } = this.props;
-
-    if (value.length) {
+    if (value && value?.length) {
       const keys = Object.keys(value[0]);
       return (
         <div>
@@ -33,8 +32,13 @@ class Recipes extends Component {
         </div>
       );
     }
-    console.log('nao deu');
   }
 }
+
+Recipes.propTypes = {
+  // drinks: PropTypes.arrayOf.isRequired,
+  value: PropTypes.arrayOf(PropTypes.shape({ strIBA: PropTypes.string })).isRequired,
+
+};
 
 export default Recipes;

@@ -28,30 +28,18 @@ class SearchBar extends Component {
       if (radioSelected === 'ingredient') {
         const ingredientResults = await getIngredient(search);
 
-        try {
-          this.handleResultMeals(ingredientResults);
-          this.mealsRedirect(ingredientResults);
-        } catch (error) {
-          return error;
-        }
+        this.handleResultMeals(ingredientResults);
+        this.mealsRedirect(ingredientResults);
       } else if (radioSelected === 'name-search') {
         const nameResults = await getName(search);
 
-        try {
-          this.handleResultMeals(nameResults);
-          this.mealsRedirect(nameResults);
-        } catch (error) {
-          return error;
-        }
+        this.handleResultMeals(nameResults);
+        this.mealsRedirect(nameResults);
       } else if (radioSelected === 'first-letter') {
         const firstLetterResults = await getFirstLetter(search);
 
-        try {
-          this.handleResultMeals(firstLetterResults);
-          this.mealsRedirect(firstLetterResults);
-        } catch (error) {
-          return error;
-        }
+        this.handleResultMeals(firstLetterResults);
+        this.mealsRedirect(firstLetterResults);
       }
     }
   };
@@ -65,42 +53,34 @@ class SearchBar extends Component {
       const { search } = this.props;
       if (radioSelected === 'ingredient') {
         const drinkIngredientResults = await getDrinkIngredient(search);
-        try {
-          this.handleResultDrinks(drinkIngredientResults);
-          this.drinksRedirect(drinkIngredientResults);
-        } catch (error) {
-          return error;
-        }
+
+        this.handleResultDrinks(drinkIngredientResults);
+        this.drinksRedirect(drinkIngredientResults);
       } else if (radioSelected === 'name-search') {
         const drinkNameResults = await getDrinkName(search);
-        try {
-          this.handleResultDrinks(drinkNameResults);
-          this.drinksRedirect(drinkNameResults);
-        } catch (error) {
-          return error;
-        }
+
+        this.handleResultDrinks(drinkNameResults);
+        this.drinksRedirect(drinkNameResults);
       } else if (radioSelected === 'first-letter') {
         const drinkFirstLetterResults = await getDrinkFirstLetter(search);
-        try {
-          this.handleResultDrinks(drinkFirstLetterResults);
-          this.drinksRedirect(drinkFirstLetterResults);
-        } catch (error) {
-          return error;
-        }
+
+        this.handleResultDrinks(drinkFirstLetterResults);
+        this.drinksRedirect(drinkFirstLetterResults);
       }
     }
   };
 
   drinksRedirect = (qualquer) => {
     const { history } = this.props;
-    if (qualquer.drinks.length === 1) {
+    if (qualquer && qualquer.drinks?.length === 1) {
       history.push(`/drinks/${qualquer.drinks[0].idDrink}`);
     }
   };
 
   mealsRedirect = (qualquer) => {
     const { history } = this.props;
-    if (qualquer.meals.length === 1) {
+    console.log('qualquer', qualquer);
+    if (qualquer && qualquer.meals?.length === 1) {
       history.push(`/meals/${qualquer.meals[0].idMeal}`);
     }
   };
@@ -108,26 +88,27 @@ class SearchBar extends Component {
   handleResultMeals = (results) => {
     const { dispatch } = this.props;
     const itensList = 12;
-    let listReturn = results.meals;
+    let listReturn = results?.meals;
+    console.log('op', listReturn);
 
-    if (listReturn.length > itensList) {
+    if (listReturn && listReturn?.length > itensList) {
       listReturn = listReturn.slice(0, itensList);
       dispatch(mealResults(listReturn));
     } else {
-      return dispatch(mealResults(results.meals));
+      return dispatch(mealResults(results?.meals));
     }
   };
 
   handleResultDrinks = (results) => {
     const { dispatch } = this.props;
     const itensList = 12;
-    let listReturn = results.drinks;
+    let listReturn = results?.drinks;
 
-    if (listReturn.length > itensList) {
+    if (listReturn?.length > itensList) {
       listReturn = listReturn.slice(0, itensList);
       dispatch(drinkResults(listReturn));
     } else {
-      return dispatch(drinkResults(results.drinks));
+      return dispatch(drinkResults(results?.drinks));
     }
   };
 

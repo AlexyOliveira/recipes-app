@@ -8,7 +8,6 @@ import '../css/footer.css';
 class Footer extends Component {
   render() {
     const { history } = this.props;
-    console.log(this.props);
 
     return (
       <div>
