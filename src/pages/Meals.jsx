@@ -22,7 +22,7 @@ class Meals extends Component {
     const itensList = 12;
     let listReturn = results.meals;
 
-    if (listReturn.length > itensList) {
+    if (listReturn?.length > itensList) {
       listReturn = listReturn.slice(0, itensList);
       dispatch(mealResults(listReturn));
     } else {
@@ -32,7 +32,6 @@ class Meals extends Component {
 
   render() {
     const { history, meals } = this.props;
-    console.log('primeiro');
     return (
       <>
         <Header history={ history } />

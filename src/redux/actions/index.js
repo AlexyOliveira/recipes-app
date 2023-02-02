@@ -1,7 +1,7 @@
 export const PAGE_TITLE = 'PAGE_TITLE';
 export const SEARCH_VALUE = 'SEARCH_VALUE';
 export const DRINK_RESULTS = 'DRINK_RESULTS';
-export const MEAL_RESULTS = 'DRINK_RESULTS';
+export const MEAL_RESULTS = 'MEAL_RESULTS';
 export const GLOBAL_HISTORY = 'GLOBAL_HISTORY';
 
 export const pageTitle = (title) => ({
@@ -20,7 +20,7 @@ export const drinkResults = (drinks) => ({
 });
 
 export const mealResults = (meals) => ({
-  type: DRINK_RESULTS,
+  type: MEAL_RESULTS,
   meals,
 });
 

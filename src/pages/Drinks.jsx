@@ -20,7 +20,7 @@ class Drinks extends Component {
     const itensList = 12;
     let listReturn = results.drinks;
 
-    if (listReturn.length > itensList) {
+    if (listReturn?.length > itensList) {
       listReturn = listReturn.slice(0, itensList);
       dispatch(drinkResults(listReturn));
     } else {

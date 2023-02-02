@@ -1,33 +1,50 @@
 const fail = 'Sorry, we haven\'t found any recipes for these filters.';
-
+const apiError = 'Falha no retorno da API, volte mais tarde';
 export const getDrinkIngredient = async (ingredient) => {
   try {
     const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`);
-    const json = await response.json();
-    return json;
+    if (response.ok === false) {
+      throw new Error(apiError);
+    }
+    const data = await response.json();
+    return data;
   } catch (error) {
     global.alert(fail);
+    console.error(error);
   }
 };
 
 export const getDrinkName = async (name) => {
-  const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${name}`);
-  const json = await response.json();
-  if (json.drinks === null) {
-    global.alert(fail);
+  try {
+    const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${name}`);
+    if (response.ok === false) {
+      throw new Error(apiError);
+    }
+    const data = await response.json();
+    if (data.drinks === null) {
+      global.alert(fail);
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
   }
-  return json;
 };
 
 export const getDrinkFirstLetter = async (firstLetter) => {
-  if (firstLetter.length > 1) {
-    global.alert('Your search must have only 1 (one) character');
+  try {
+    if (firstLetter?.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
+    }
+    const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${firstLetter}`);
+    if (response.ok === false) {
+      throw new Error(apiError);
+    }
+    const data = await response.json();
+    if (data.drinks === null) {
+      global.alert(fail);
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
   }
-  const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${firstLetter}`);
-
-  const json = await response.json();
-  if (json.drinks === null) {
-    global.alert(fail);
-  }
-  return json;
 };
