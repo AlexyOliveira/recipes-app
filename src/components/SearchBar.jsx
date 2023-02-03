@@ -79,7 +79,6 @@ class SearchBar extends Component {
 
   mealsRedirect = (qualquer) => {
     const { history } = this.props;
-    console.log('qualquer', qualquer);
     if (qualquer && qualquer.meals?.length === 1) {
       history.push(`/meals/${qualquer.meals[0].idMeal}`);
     }
@@ -89,7 +88,6 @@ class SearchBar extends Component {
     const { dispatch } = this.props;
     const itensList = 12;
     let listReturn = results?.meals;
-    console.log('op', listReturn);
 
     if (listReturn && listReturn?.length > itensList) {
       listReturn = listReturn.slice(0, itensList);
