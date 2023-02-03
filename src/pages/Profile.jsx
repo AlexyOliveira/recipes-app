@@ -15,8 +15,31 @@ class Profile extends Component {
   render() {
     return (
       <>
-        <Header />
-        <div>Profile</div>
+        <Header
+          title="Profile"
+        />
+        <section className="section">
+          <p data-testid="profile-email">Email</p>
+          <button
+            data-testid="profile-done-btn"
+            type="button"
+          >
+            Done Recipes
+          </button>
+          <button
+            data-testid="profile-favorite-btn"
+            type="button"
+          >
+            Favorite Recipes
+          </button>
+          <button
+            data-testid="profile-logout-btn"
+            type="button"
+          >
+            Logout
+          </button>
+        </section>
+
         <Footer />
       </>
 
