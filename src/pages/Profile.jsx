@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { pageTitle } from '../redux/actions';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -8,7 +8,13 @@ function Profile() {
   pageTitle('Profile');
 
   const user = JSON.parse(localStorage.getItem('user'));
-  const email = user ? user.email : null;
+  const email = user && user.email;
+  const history = useHistory();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    history.push('/');
+  };
 
   return (
     <>
@@ -37,14 +43,13 @@ function Profile() {
             Favorite Recipes
           </button>
         </Link>
-        <Link to="/">
-          <button
-            data-testid="profile-logout-btn"
-            type="button"
-          >
-            Logout
-          </button>
-        </Link>
+        <button
+          data-testid="profile-logout-btn"
+          type="button"
+          onClick={ handleLogout }
+        >
+          Logout
+        </button>
       </section>
 
       <Footer />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouterAndRedux';
 import App from '../App';
@@ -10,28 +10,39 @@ const dataTestidEmail = 'profile-email';
 const dataTestisLogout = 'profile-logout-btn';
 
 describe('Testando a página de perfil', () => {
-  test('Verifica se o botão de logout redireciona para a tela de login', () => {
+  beforeEach(async () => {
+    localStorage.setItem('user', JSON.stringify({ email: 'teste@teste.com' }));
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+  });
+
+  test('Verifica se a função handleLogout funciona corretamente', async () => {
     const { history } = renderWithRouter(<App />);
-    const email = screen.getByTestId(dataTestidEmail);
-    const button = screen.getByTestId(dataTestisLogout);
-    userEvent.type(email, 'xablau@teste.com');
-    userEvent.click(button);
+    history.push('/profile');
+    expect(history.location.pathname).toBe('/profile');
+
+    await waitFor(() => {
+      const email = screen.getByTestId(dataTestidEmail);
+      expect(email).toBeInTheDocument();
+    });
+    const getEmail = screen.getByTestId(dataTestidEmail);
+    expect(getEmail).toHaveTextContent('teste@teste.com');
+  });
+
+  test('Verifica se a função handleLogout funciona corretamente', async () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/profile');
+    expect(history.location.pathname).toBe('/profile');
+
+    await waitFor(() => {
+      const email = screen.getByTestId(dataTestidEmail);
+      expect(email).toBeInTheDocument();
+    });
+
+    const logout = screen.getByTestId(dataTestisLogout);
+    userEvent.click(logout);
     expect(history.location.pathname).toBe('/');
-  });
-
-  test('Verifica se a página de perfil renderiza corretamente', () => {
-    renderWithRouter(<App />);
-    const title = screen.getByRole('heading', { name: /perfil/i });
-    const email = screen.getByTestId(dataTestidEmail);
-    const button = screen.getByTestId(dataTestisLogout);
-    expect(title).toBeInTheDocument();
-    expect(email).toBeInTheDocument();
-    expect(button).toBeInTheDocument();
-  });
-
-  test('Verifica se o email do usuário é exibido na tela', () => {
-    renderWithRouter(<App />);
-    const email = screen.getByTestId(dataTestidEmail);
-    expect(email).toBeInTheDocument();
   });
 });
