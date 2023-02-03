@@ -15,7 +15,7 @@ class Login extends Component {
     this.setState({ [name]: value }, () => {
       const { email, password } = this.state;
       const n = 6;
-      const isVal = email.includes('@') && email.includes('.com') && password.length > n;
+      const isVal = email.includes('@') && email.includes('.com') && password?.length > n;
       this.setState({ isRequired: isVal });
     });
   };

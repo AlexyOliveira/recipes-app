@@ -6,40 +6,107 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Recipes from '../components/Recipes';
 import { mealResults, pageTitle } from '../redux/actions';
-import { getName } from '../services/api';
+import { getMealCategories, getMealsbyFilter, getName } from '../services/api';
 
 class Meals extends Component {
+  state = {
+    mealsCategories: [],
+    isCategorieCliked: '',
+  };
+
   async componentDidMount() {
     const { dispatch } = this.props;
-
     dispatch(pageTitle('Meals'));
     const mealsReturn = await getName('');
-    this.handleResultMeals(mealsReturn);
+    this.handleResultMeals(mealsReturn.meals);
+    this.mealCategories();
   }
+
+  mealCategories = async () => {
+    const categoriesReturn = await getMealCategories();
+    this.mealCategoriesSlicetoFive(categoriesReturn);
+  };
+
+  mealCategoriesSlicetoFive = (results) => {
+    const itensList = 5;
+    let listReturn = results;
+
+    if (listReturn?.length > itensList) {
+      listReturn = listReturn.slice(0, itensList);
+      this.setState({
+        mealsCategories: listReturn,
+      });
+    } else {
+      this.setState({
+        mealsCategories: results,
+      });
+    }
+  };
+
+  handleCategorieClick = async ({ target }) => {
+    const { isCategorieCliked } = this.state;
+    const filterReturn = await getMealsbyFilter(target.name);
+    this.handleResultMeals(filterReturn);
+    this.setState({
+      isCategorieCliked: target.name,
+    });
+    if (isCategorieCliked === target.name) {
+      const mealsReturn = await getName('');
+      this.handleResultMeals(mealsReturn.meals);
+      this.setState({
+        isCategorieCliked: '',
+      });
+    }
+  };
+
+  handleAll = async () => {
+    const mealsReturn = await getName('');
+    this.handleResultMeals(mealsReturn.meals);
+    this.setState({
+      isCategorieCliked: '',
+    });
+  };
 
   handleResultMeals = (results) => {
     const { dispatch } = this.props;
     const itensList = 12;
-    let listReturn = results.meals;
+    let listReturn = results;
 
-    if (listReturn.length > itensList) {
+    if (listReturn?.length > itensList) {
       listReturn = listReturn.slice(0, itensList);
       dispatch(mealResults(listReturn));
     } else {
-      return dispatch(mealResults(results.meals));
+      return dispatch(mealResults(results));
     }
   };
 
   render() {
     const { history, meals } = this.props;
-    console.log('primeiro');
+    const { mealsCategories } = this.state;
     return (
       <>
         <Header history={ history } />
+        <button
+          onClick={ this.handleAll }
+          data-testid="All-category-filter"
+          type="button"
+        >
+          All
+        </button>
+        {mealsCategories.map((categorie, index) => (
+          <button
+            data-testid={ `${categorie.strCategory}-category-filter` }
+            type="button"
+            key={ index }
+            onClick={ this.handleCategorieClick }
+            name={ categorie.strCategory }
+          >
+            {categorie.strCategory}
+          </button>
+        ))}
         <Recipes value={ meals } />
         <Footer />
       </>
-
     );
   }
 }
