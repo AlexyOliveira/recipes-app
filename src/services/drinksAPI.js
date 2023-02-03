@@ -48,3 +48,18 @@ export const getDrinkFirstLetter = async (firstLetter) => {
     console.error(error);
   }
 };
+
+// get by filterButton
+
+export const getDrinksbyFilter = async (filter) => {
+  try {
+    const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${filter}`);
+    if (response.ok === false) {
+      throw new Error(apiError);
+    }
+    const json = await response.json();
+    return json.drinks;
+  } catch (error) {
+    console.error(error);
+  }
+};
