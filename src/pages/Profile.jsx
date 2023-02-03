@@ -1,11 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { pageTitle } from '../redux/actions';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function Profile() {
-  const dispatch = useDispatch();
-  dispatch(pageTitle('Perfil'));
+  pageTitle('Profile');
 
   const user = JSON.parse(localStorage.getItem('user'));
   const email = user ? user.email : null;
@@ -21,24 +21,30 @@ function Profile() {
         >
           {email}
         </p>
-        <button
-          data-testid="profile-done-btn"
-          type="button"
-        >
-          Done Recipes
-        </button>
-        <button
-          data-testid="profile-favorite-btn"
-          type="button"
-        >
-          Favorite Recipes
-        </button>
-        <button
-          data-testid="profile-logout-btn"
-          type="button"
-        >
-          Logout
-        </button>
+        <Link to="/done-recipes">
+          <button
+            data-testid="profile-done-btn"
+            type="button"
+          >
+            Done Recipes
+          </button>
+        </Link>
+        <Link to="/favorite-recipes">
+          <button
+            data-testid="profile-favorite-btn"
+            type="button"
+          >
+            Favorite Recipes
+          </button>
+        </Link>
+        <Link to="/">
+          <button
+            data-testid="profile-logout-btn"
+            type="button"
+          >
+            Logout
+          </button>
+        </Link>
       </section>
 
       <Footer />
