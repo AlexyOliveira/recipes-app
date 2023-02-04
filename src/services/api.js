@@ -95,16 +95,53 @@ export const getMealsbyFilter = async (filter) => {
   }
 };
 
-// get by id
-
-export const getMealsbyId = async (id) => {
+export const getMealById = async (id) => {
   try {
     const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
     if (response.ok === false) {
       throw new Error(apiError);
     }
     const json = await response.json();
+    return json.meals[0];
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getDrinkById = async (id) => {
+  try {
+    const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+    if (response.ok === false) {
+      throw new Error(apiError);
+    }
+    const json = await response.json();
+    return json.drinks[0];
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getAllMeals = async () => {
+  try {
+    const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+    if (response.ok === false) {
+      throw new Error(apiError);
+    }
+    const json = await response.json();
     return json.meals;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getAllDrinks = async () => {
+  try {
+    const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+    if (response.ok === false) {
+      throw new Error(apiError);
+    }
+    const json = await response.json();
+    return json.drinks;
   } catch (error) {
     console.error(error);
   }

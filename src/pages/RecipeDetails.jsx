@@ -1,156 +1,113 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { getMealsbyId } from '../services/api';
-import { getDrinksbyId } from '../services/drinksAPI';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { getMealById, getDrinkById, getAllMeals,
+  getAllDrinks } from '../services/api';
+import './RecipeDetails.css';
 
-class RecipeDetails extends Component {
-  state = {
-    recipeResults: [],
-    resultDrinkOrMeals: '',
-    ingredients: [],
-    measures: [],
-  };
+function RecipeDetails() {
+  const location = useLocation();
+  const [recipe, setRecipe] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
+  const magicNumber = -11;
+  const magicN = 6;
 
-  async componentDidMount() {
-    const { history } = this.props;
-    const splitHistory = history.location.pathname.split('/');
-    this.setState({
-      resultDrinkOrMeals: splitHistory[1],
-    });
-    if (splitHistory[1] === 'meals') {
-      const meals = await getMealsbyId(splitHistory[2]);
-      this.setState({
-        recipeResults: meals,
-      }, () => { this.filterIngredients(); this.filterMeasures(); });
-    } else if (splitHistory[1] === 'drinks') {
-      const drinks = await getDrinksbyId(splitHistory[2]);
-      this.setState({
-        recipeResults: drinks,
-      }, () => { this.filterIngredients(); this.filterMeasures(); });
-    }
-  }
+  useEffect(() => {
+    const id = location.pathname.split('/')[2];
+    const type = location.pathname.split('/')[1];
 
-  filterIngredients = () => {
-    const { recipeResults } = this.state;
-    const indice = recipeResults[0];
-    const strIngredients = Object.keys(indice)
-      .filter((key) => key.startsWith('strIngredient'))
-      .map((key) => indice[key])
-      .filter((ingredient) => ingredient);
-    this.setState({
-      ingredients: strIngredients,
-    });
-  };
+    const getRecipe = async () => {
+      if (type === 'meals') {
+        const meal = await getMealById(id);
+        setRecipe([meal]);
+        const drinkCategories = await getAllDrinks();
+        setRecommendations(drinkCategories);
+      } else {
+        const drink = await getDrinkById(id);
+        setRecipe([drink]);
+        const mealCategories = await getAllMeals();
+        setRecommendations(mealCategories);
+      }
+    };
 
-  filterMeasures = () => {
-    const { recipeResults } = this.state;
-    const indice = recipeResults[0];
-    const strMeasures = Object.keys(indice)
-      .filter((key) => key.startsWith('strMeasure'))
-      .map((key) => indice[key])
-      .filter((ingredient) => ingredient);
-    this.setState({
-      measures: strMeasures,
-    });
-  };
-
-  render() {
-    const { recipeResults, resultDrinkOrMeals, ingredients, measures } = this.state;
-    console.log(recipeResults);
-    return (
-      <>
-        <div>RecipeDetails</div>
-        {resultDrinkOrMeals === 'meals'
-          ? recipeResults?.map((result) => (
-            <div key={ result.idMeal }>
-              <img
-                data-testid="recipe-photo"
-                src={ result.strMealThumb }
-                alt={ result.strMeal }
-              />
-              <h2 data-testid="recipe-title">{result.strMeal}</h2>
-              <h4 data-testid="recipe-category">{result.strCategory}</h4>
-              <ul />
-              {ingredients?.map((ingredient, index) => (
-                <li
-                  key={ index }
-                  data-testid={ `${index}-ingredient-name-and-measure` }
-                >
-                  {ingredient}
-                </li>
-              ))}
-              <ul />
-
-              <ul>
-                {measures?.map((measure, index) => (
-                  <li
-                    key={ index }
-                    data-testid={ `${index}-ingredient-name-and-measure` }
-                  >
-                    {measure}
-                  </li>
-                ))}
-              </ul>
-
-              <p data-testid="instructions">{result.strInstructions}</p>
+    getRecipe();
+  }, [location]);
+  console.log(recipe);
+  return (
+    <div>
+      <h1>RecipeDetails</h1>
+      {recipe.map((item, index) => (
+        <div key={ index }>
+          <img
+            src={ item.strMealThumb || item.strDrinkThumb }
+            alt={ item.strMeal }
+            style={ { width: '200px' } }
+            data-testid="recipe-photo"
+          />
+          <h2 data-testid="recipe-title">{item.strMeal || item.strDrink}</h2>
+          <h3 data-testid="recipe-category">{item.strCategory}</h3>
+          <h3 data-testid="recipe-category">{item.strAlcoholic}</h3>
+          <h3>Ingredients</h3>
+          <ul>
+            {Object.keys(item).reduce((acc, key) => {
+              if (key.includes('Ingredient') && item[key] !== '' && item[key] !== null) {
+                return [...acc, item[key]];
+              }
+              return acc;
+            }, []).map((ingredient, i) => (
+              <li
+                key={ i }
+                data-testid={ `${i}-ingredient-name-and-measure` }
+              >
+                {`${ingredient} - ${item[`strMeasure${i + 1}`]}`}
+              </li>
+            ))}
+          </ul>
+          <h3>Instructions</h3>
+          <p data-testid="instructions">{item.strInstructions}</p>
+          {/* use replace in the video to work */}
+          {item.strYoutube && (
+            <>
+              <h3>Video</h3>
               <iframe
                 data-testid="video"
-                width="560"
+                title="recipe"
+                width="360"
                 height="315"
-                src={ result?.strYoutube }
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay;
-              clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
+                src={ `https://www.youtube.com/embed/${item.strYoutube.slice(magicNumber)}` }
               />
-            </div>
-          ))
-          : recipeResults?.map((result) => (
-            <div key={ result.idDrink }>
+            </>
+
+          )}
+        </div>
+      ))}
+      <h3>Recomendations</h3>
+      <div className="recommendations" style={ { marginBottom: '50px' } }>
+        {recommendations.map((item, index) => (
+          index < magicN && (
+            <div key={ index }>
               <img
-                data-testid="recipe-photo"
-                src={ result.strDrinkThumb }
-                alt={ result.strDrink }
+                data-testid={ `${index}-recommendation-card` }
+                src={ item.strMealThumb || item.strDrinkThumb }
+                alt={ item.strMeal || item.strDrink }
+                className="recommendation-img"
               />
-              <h2 data-testid="recipe-title">{result.strDrink}</h2>
-              <h4>{result.strCategory}</h4>
-              <p data-testid="recipe-category">{result.strAlcoholic}</p>
-              <ul>
-                {ingredients?.map((ingredient, index) => (
-                  <li
-                    key={ index }
-                    data-testid={ `${index}-ingredient-name-and-measure` }
-                  >
-                    {ingredient}
-                  </li>
-                ))}
-              </ul>
-
-              <ul>
-                {measures?.map((measure, index) => (
-                  <li
-                    key={ index }
-                    data-testid={ `${index}-ingredient-name-and-measure` }
-                  >
-                    {measure}
-                  </li>
-                ))}
-              </ul>
-
-              <p data-testid="instructions">{result.strInstructions}</p>
+              <h2 data-testid={ `${index}-recommendation-title` }>
+                {item.strMeal || item.strDrink}
+              </h2>
             </div>
-          ))}
-      </>
-    );
-  }
-}
+          )
+        ))}
+      </div>
 
-RecipeDetails.propTypes = {
-  history: PropTypes.shape({
-    pathname: PropTypes.func,
-    location: PropTypes.func,
-  }).isRequired,
-};
+      <button
+        type="button"
+        data-testid="start-recipe-btn"
+        className="start-recipe-btn"
+      >
+        Start Recipe
+      </button>
+    </div>
+  );
+}
 
 export default RecipeDetails;
