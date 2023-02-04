@@ -16,3 +16,14 @@
   height: 180px;
   width: 180px;
 }
+
+.start-recipe-btn {
+  border: none;
+  border-radius: 10px;
+  bottom: 0;
+  height: 50px;
+  left: 0;
+  position: fixed;
+  right: 0;
+  width: 100%;
+}
