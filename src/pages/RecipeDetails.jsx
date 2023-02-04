@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getMealById, getDrinkById } from '../services/api';
+import { getMealById, getDrinkById, getAllMeals,
+  getAllDrinks } from '../services/api';
 
 function RecipeDetails() {
   const location = useLocation();
   const [recipe, setRecipe] = useState([]);
-
+  const [recommendations, setRecommendations] = useState([]);
+  console.log(recommendations);
   const magicNumber = -11;
 
   useEffect(() => {
@@ -16,9 +18,13 @@ function RecipeDetails() {
       if (type === 'meals') {
         const meal = await getMealById(id);
         setRecipe([meal]);
+        const drinkCategories = await getAllDrinks();
+        setRecommendations(drinkCategories);
       } else {
         const drink = await getDrinkById(id);
         setRecipe([drink]);
+        const mealCategories = await getAllMeals();
+        setRecommendations(mealCategories);
       }
     };
 
