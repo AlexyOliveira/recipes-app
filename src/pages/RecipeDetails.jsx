@@ -8,26 +8,23 @@ function RecipeDetails() {
   const location = useLocation();
   const [recipe, setRecipe] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
-  console.log(recommendations);
   const magicNumber = -11;
+  const magicN = 6;
 
   useEffect(() => {
     const id = location.pathname.split('/')[2];
     const type = location.pathname.split('/')[1];
 
     const getRecipe = async () => {
-      const magicN = 6;
       if (type === 'meals') {
         const meal = await getMealById(id);
         setRecipe([meal]);
         const drinkCategories = await getAllDrinks();
-        drinkCategories.splice(magicN);
         setRecommendations(drinkCategories);
       } else {
         const drink = await getDrinkById(id);
         setRecipe([drink]);
         const mealCategories = await getAllMeals();
-        mealCategories.splice(magicN);
         setRecommendations(mealCategories);
       }
     };
@@ -85,7 +82,7 @@ function RecipeDetails() {
       ))}
       <h3>Recomendations</h3>
       <div className="recommendations">
-        {recommendations.map((item, index) => (
+        {recommendations.splice(0, magicN).map((item, index) => (
           <div key={ index }>
             <img
               data-testid={ `${index}-recommendation-card` }
