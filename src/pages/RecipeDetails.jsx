@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getMealById, getDrinkById, getAllMeals,
   getAllDrinks } from '../services/api';
+import './RecipeDetails.css';
 
 function RecipeDetails() {
   const location = useLocation();
@@ -15,15 +16,18 @@ function RecipeDetails() {
     const type = location.pathname.split('/')[1];
 
     const getRecipe = async () => {
+      const magicN = 6;
       if (type === 'meals') {
         const meal = await getMealById(id);
         setRecipe([meal]);
         const drinkCategories = await getAllDrinks();
+        drinkCategories.splice(magicN);
         setRecommendations(drinkCategories);
       } else {
         const drink = await getDrinkById(id);
         setRecipe([drink]);
         const mealCategories = await getAllMeals();
+        mealCategories.splice(magicN);
         setRecommendations(mealCategories);
       }
     };
@@ -79,6 +83,22 @@ function RecipeDetails() {
           )}
         </div>
       ))}
+      <h3>Recomendations</h3>
+      <div className="recommendations">
+        {recommendations.map((item, index) => (
+          <div key={ index }>
+            <img
+              data-testid={ `${index}-recommendation-card` }
+              src={ item.strMealThumb || item.strDrinkThumb }
+              alt={ item.strMeal || item.strDrink }
+              className="recommendation-img"
+            />
+            <h2 data-testid={ `${index}-recommendation-title` }>
+              {item.strMeal || item.strDrink}
+            </h2>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

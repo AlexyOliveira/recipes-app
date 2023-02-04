@@ -1,0 +1,18 @@
+.recommendations {
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.recommendations::-webkit-scrollbar {
+  display: none;
+}
+
+.recommendation-img {
+  height: 180px;
+  width: 180px;
+}
