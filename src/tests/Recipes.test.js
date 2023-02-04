@@ -61,7 +61,7 @@ describe('Testa a página Recipes.', () => {
     });
     userEvent.click(firstAllRecipe);
   });
-  /// //MEALS
+  // /// //MEALS
   it(
     'Verifica se os primeiros 5 filtros do array retornado da API (meals).',
     async () => {

@@ -6,7 +6,6 @@ class Recipes extends Component {
   handleCardClick = (id) => {
     const { history } = this.props;
     const [mealOrDrink, idMealOrDrink] = id.split('.');
-    console.log(mealOrDrink);
     const path = mealOrDrink === 'meal'
       ? `/meals/${idMealOrDrink}`
       : `/drinks/${idMealOrDrink}`;
