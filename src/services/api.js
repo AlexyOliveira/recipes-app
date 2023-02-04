@@ -120,3 +120,29 @@ export const getDrinkById = async (id) => {
     console.error(error);
   }
 };
+
+export const getAllMeals = async () => {
+  try {
+    const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+    if (response.ok === false) {
+      throw new Error(apiError);
+    }
+    const json = await response.json();
+    return json.meals;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getAllDrinks = async () => {
+  try {
+    const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+    if (response.ok === false) {
+      throw new Error(apiError);
+    }
+    const json = await response.json();
+    return json.drinks;
+  } catch (error) {
+    console.error(error);
+  }
+};
