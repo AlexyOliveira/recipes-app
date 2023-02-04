@@ -94,3 +94,18 @@ export const getMealsbyFilter = async (filter) => {
     console.error(error);
   }
 };
+
+// get by id
+
+export const getMealsbyId = async (id) => {
+  try {
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+    if (response.ok === false) {
+      throw new Error(apiError);
+    }
+    const json = await response.json();
+    return json.meals;
+  } catch (error) {
+    console.error(error);
+  }
+};
