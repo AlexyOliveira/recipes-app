@@ -66,6 +66,16 @@ function RecipeDetails() {
     const url = window.location.href;
     navigator.clipboard.writeText(url);
   };
+  const startRecipeStorage = () => {
+    const startedRecipeStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (type === 'meals') {
+      startedRecipeStorage.meals[id] = [];
+      localStorage.setItem('inProgressRecipes', JSON.stringify(startedRecipeStorage));
+    } else {
+      startedRecipeStorage.drinks[id] = [];
+      localStorage.setItem('inProgressRecipes', JSON.stringify(startedRecipeStorage));
+    }
+  };
   const saveFavorite = () => {
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     const { strMeal, strDrink, strCategory, strArea,
@@ -177,7 +187,12 @@ function RecipeDetails() {
         )}
       </div>
       <Link to={ `/${type}/${id}/in-progress` }>
-        <button type="button" data-testid="start-recipe-btn" className="start-recipe-btn">
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          className="start-recipe-btn"
+          onClick={ startRecipeStorage }
+        >
           {startedRecipe ? 'Continue Recipe' : 'Start Recipe'}
         </button>
       </Link>

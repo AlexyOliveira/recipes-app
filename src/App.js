@@ -11,6 +11,7 @@ import FavoriteRecipes from './pages/FavoriteRecipes';
 import Meals from './pages/Meals';
 import Drinks from './pages/Drinks';
 import store from './redux/store';
+import RecipesInProgress from './pages/RecipesInProgress';
 
 function App() {
   return (
@@ -21,16 +22,16 @@ function App() {
         <Route exact path="/drinks" component={ Drinks } />
         <Route exact path="/meals/:id" component={ RecipeDetails } />
         <Route exact path="/drinks/:id" component={ RecipeDetails } />
-        {/* <Route
-            exact
-            path="/meals/:id/in-progress"
-            component={ RecipesInProgress }
-          />
-          <Route
-            exact
-            path="/drinks/:id/in-progress"
-            component={ RecipesInProgress }
-          /> */}
+        <Route
+          exact
+          path="/meals/:id/in-progress"
+          component={ RecipesInProgress }
+        />
+        <Route
+          exact
+          path="/drinks/:id/in-progress"
+          component={ RecipesInProgress }
+        />
         <Route path="/profile" component={ Profile } />
         <Route path="/done-recipes" component={ DoneRecipes } />
         <Route path="/favorite-recipes" component={ FavoriteRecipes } />
