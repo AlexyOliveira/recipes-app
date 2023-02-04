@@ -81,19 +81,21 @@ function RecipeDetails() {
         </div>
       ))}
       <h3>Recomendations</h3>
-      <div className="recommendations">
-        {recommendations.splice(0, magicN).map((item, index) => (
-          <div key={ index }>
-            <img
-              data-testid={ `${index}-recommendation-card` }
-              src={ item.strMealThumb || item.strDrinkThumb }
-              alt={ item.strMeal || item.strDrink }
-              className="recommendation-img"
-            />
-            <h2 data-testid={ `${index}-recommendation-title` }>
-              {item.strMeal || item.strDrink}
-            </h2>
-          </div>
+      <div className="recommendations" style={ { marginBottom: '50px' } }>
+        {recommendations.map((item, index) => (
+          index < magicN && (
+            <div key={ index }>
+              <img
+                data-testid={ `${index}-recommendation-card`}
+                src={ item.strMealThumb || item.strDrinkThumb }
+                alt={ item.strMeal || item.strDrink }
+                className="recommendation-img"
+              />
+              <h2 data-testid={ `${index}-recommendation-title` }>
+                {item.strMeal || item.strDrink}
+              </h2>
+            </div>
+          )
         ))}
       </div>
 
