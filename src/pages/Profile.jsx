@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { pageTitle } from '../redux/actions';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function Profile() {
-  pageTitle('Profile');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(pageTitle('Profile'));
+  }, [dispatch]);
 
   const user = JSON.parse(localStorage.getItem('user'));
   const email = user && user.email;
@@ -21,6 +26,7 @@ function Profile() {
       <Header
         title="Profile"
       />
+
       <section className="section">
         <p
           data-testid="profile-email"

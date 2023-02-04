@@ -36,7 +36,10 @@ class Header extends Component {
     return (
       <div>
         <h1 data-testid="page-title">{title}</h1>
-        <button type="button" onClick={ this.handleProfileSubmit }>
+        <button
+          type="button"
+          onClick={ this.handleProfileSubmit }
+        >
           <img data-testid="profile-top-btn" src={ profile } alt="profile-icon" />
         </button>
         {title !== 'Profile'
