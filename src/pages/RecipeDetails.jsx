@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getMealById, getDrinkById, getAllMeals,
-  getAllDrinks } from '../services/api';
+import { getMealById, getDrinkById, getAllMeals, getAllDrinks } from '../services/api';
 import './RecipeDetails.css';
 
 function RecipeDetails() {
   const location = useLocation();
   const [recipe, setRecipe] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
+  const [startedRecipe, setStartedRecipe] = useState(false);
   const magicNumber = -11;
   const magicN = 6;
-
+  const getStartedRecipe = JSON.parse(localStorage.getItem('inProgressRecipes'));
   useEffect(() => {
     const id = location.pathname.split('/')[2];
     const type = location.pathname.split('/')[1];
-
     const getRecipe = async () => {
       if (type === 'meals') {
         const meal = await getMealById(id);
@@ -28,10 +27,31 @@ function RecipeDetails() {
         setRecommendations(mealCategories);
       }
     };
-
     getRecipe();
   }, [location]);
-  console.log(recipe);
+  useEffect(() => {
+    if (!getStartedRecipe) {
+      const startedRecipex = {
+        drinks: {},
+        meals: {},
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(startedRecipex));
+    }
+  }, [getStartedRecipe]);
+  useEffect(() => {
+    if (getStartedRecipe !== null) {
+      // check if this recipe has been started
+      const id = location.pathname.split('/')[2];
+      const type = location.pathname.split('/')[1];
+      if (type === 'meals' && getStartedRecipe.meals[id]) {
+        setStartedRecipe(true);
+      }
+      if (type === 'drinks' && getStartedRecipe.drinks[id]) {
+        setStartedRecipe(true);
+      }
+    }
+  }, [getStartedRecipe, location]);
+  console.log(startedRecipe);
   return (
     <div>
       <h1>RecipeDetails</h1>
@@ -48,19 +68,19 @@ function RecipeDetails() {
           <h3 data-testid="recipe-category">{item.strAlcoholic}</h3>
           <h3>Ingredients</h3>
           <ul>
-            {Object.keys(item).reduce((acc, key) => {
-              if (key.includes('Ingredient') && item[key] !== '' && item[key] !== null) {
-                return [...acc, item[key]];
-              }
-              return acc;
-            }, []).map((ingredient, i) => (
-              <li
-                key={ i }
-                data-testid={ `${i}-ingredient-name-and-measure` }
-              >
-                {`${ingredient} - ${item[`strMeasure${i + 1}`]}`}
-              </li>
-            ))}
+            {Object.keys(item)
+              .reduce((acc, key) => {
+                if (key.includes('Ingredient')
+                  && item[key] !== '' && item[key] !== null) {
+                  return [...acc, item[key]];
+                }
+                return acc;
+              }, [])
+              .map((ingredient, i) => (
+                <li key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
+                  {`${ingredient} - ${item[`strMeasure${i + 1}`]}`}
+                </li>
+              ))}
           </ul>
           <h3>Instructions</h3>
           <p data-testid="instructions">{item.strInstructions}</p>
@@ -76,14 +96,13 @@ function RecipeDetails() {
                 src={ `https://www.youtube.com/embed/${item.strYoutube.slice(magicNumber)}` }
               />
             </>
-
           )}
         </div>
       ))}
       <h3>Recomendations</h3>
       <div className="recommendations" style={ { marginBottom: '50px' } }>
-        {recommendations.map((item, index) => (
-          index < magicN && (
+        {recommendations.map(
+          (item, index) => index < magicN && (
             <div key={ index }>
               <img
                 data-testid={ `${index}-recommendation-card` }
@@ -95,19 +114,13 @@ function RecipeDetails() {
                 {item.strMeal || item.strDrink}
               </h2>
             </div>
-          )
-        ))}
+          ),
+        )}
       </div>
-
-      <button
-        type="button"
-        data-testid="start-recipe-btn"
-        className="start-recipe-btn"
-      >
-        Start Recipe
+      <button type="button" data-testid="start-recipe-btn" className="start-recipe-btn">
+        {startedRecipe ? 'Continue Recipe' : 'Start Recipe'}
       </button>
     </div>
   );
 }
-
 export default RecipeDetails;
