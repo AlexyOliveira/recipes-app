@@ -119,6 +119,18 @@ function RecipeDetails() {
           {startedRecipe ? 'Continue Recipe' : 'Start Recipe'}
         </button>
       </Link>
+      <button
+        type="button"
+        data-testid="share-btn"
+      >
+        Share Recipe
+      </button>
+      <button
+        type="button"
+        data-testid="favorite-btn"
+      >
+        Favorite Recipe
+      </button>
     </div>
   );
 }
