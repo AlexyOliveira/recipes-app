@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { getMealById, getDrinkById, getAllMeals, getAllDrinks } from '../services/api';
 import './RecipeDetails.css';
 
@@ -11,9 +11,9 @@ function RecipeDetails() {
   const magicNumber = -11;
   const magicN = 6;
   const getStartedRecipe = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  const id = location.pathname.split('/')[2];
+  const type = location.pathname.split('/')[1];
   useEffect(() => {
-    const id = location.pathname.split('/')[2];
-    const type = location.pathname.split('/')[1];
     const getRecipe = async () => {
       if (type === 'meals') {
         const meal = await getMealById(id);
@@ -28,7 +28,7 @@ function RecipeDetails() {
       }
     };
     getRecipe();
-  }, [location]);
+  }, [location, id, type]);
   useEffect(() => {
     if (!getStartedRecipe) {
       const startedRecipex = {
@@ -40,9 +40,6 @@ function RecipeDetails() {
   }, [getStartedRecipe]);
   useEffect(() => {
     if (getStartedRecipe !== null) {
-      // check if this recipe has been started
-      const id = location.pathname.split('/')[2];
-      const type = location.pathname.split('/')[1];
       if (type === 'meals' && getStartedRecipe.meals[id]) {
         setStartedRecipe(true);
       }
@@ -50,7 +47,7 @@ function RecipeDetails() {
         setStartedRecipe(true);
       }
     }
-  }, [getStartedRecipe, location]);
+  }, [getStartedRecipe, location, id, type]);
   console.log(startedRecipe);
   return (
     <div>
@@ -117,9 +114,11 @@ function RecipeDetails() {
           ),
         )}
       </div>
-      <button type="button" data-testid="start-recipe-btn" className="start-recipe-btn">
-        {startedRecipe ? 'Continue Recipe' : 'Start Recipe'}
-      </button>
+      <Link to={ `/${type}/${id}/in-progress` }>
+        <button type="button" data-testid="start-recipe-btn" className="start-recipe-btn">
+          {startedRecipe ? 'Continue Recipe' : 'Start Recipe'}
+        </button>
+      </Link>
     </div>
   );
 }
