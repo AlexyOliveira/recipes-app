@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { getMealsbyId } from '../services/api';
 import { getDrinksbyId } from '../services/drinksAPI';
 
