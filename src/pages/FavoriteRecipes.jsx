@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { pageTitle } from '../redux/actions';
+import FavoriteCards from '../components/FavoriteCards';
 import Header from '../components/Header';
 
 class FavoriteRecipes extends Component {
@@ -15,7 +16,9 @@ class FavoriteRecipes extends Component {
     return (
       <>
         <Header />
-        <div>FavoriteRecipes</div>
+        <div>
+          <FavoriteCards />
+        </div>
       </>
 
     );
