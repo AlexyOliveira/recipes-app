@@ -10,6 +10,10 @@ import oneMeal from '../../cypress/mocks/oneMeal';
 import App from '../App';
 
 const textDeco = 'text-decoration: line-through solid rgb(0, 0, 0)';
+const recipeTitle = 'recipe-title';
+const recipePhoto = 'recipe-photo';
+const rotaDrinks = '/drinks/178319/in-progress';
+const finishRecipe = 'finish-recipe-btn';
 
 describe('Testando o componente RecipeDetails', () => {
   beforeEach(() => {
@@ -63,10 +67,10 @@ describe('Testando o componente RecipeDetails', () => {
       const { history } = renderWithRouter(<App />);
       history.push('/meals/52771/in-progress');
     });
-    const title = await waitFor(() => screen.getByTestId('recipe-title'));
+    const title = await waitFor(() => screen.getByTestId(recipeTitle));
     expect(title).toBeInTheDocument();
     expect(fetch).toHaveBeenCalled();
-    const photo = await waitFor(() => screen.getByTestId('recipe-photo'));
+    const photo = await waitFor(() => screen.getByTestId(recipePhoto));
     expect(photo).toBeInTheDocument();
   });
 
@@ -81,12 +85,12 @@ describe('Testando o componente RecipeDetails', () => {
 
     act(() => {
       const { history } = renderWithRouter(<App />);
-      history.push('/drinks/178319/in-progress');
+      history.push(rotaDrinks);
     });
-    const title = await waitFor(() => screen.getByTestId('recipe-title'));
+    const title = await waitFor(() => screen.getByTestId(recipeTitle));
     expect(title).toBeInTheDocument();
     expect(fetch).toHaveBeenCalled();
-    const photo = await waitFor(() => screen.getByTestId('recipe-photo'));
+    const photo = await waitFor(() => screen.getByTestId(recipePhoto));
     expect(photo).toBeInTheDocument();
 
     const checkboxes = await waitFor(() => screen.getAllByRole('checkbox'));
@@ -124,12 +128,12 @@ describe('Testando o componente RecipeDetails', () => {
   it('Verifica se eh possivel favoritar uma receita', async () => {
     act(() => {
       const { history } = renderWithRouter(<App />);
-      history.push('/drinks/178319/in-progress');
+      history.push(rotaDrinks);
     });
-    const title = await waitFor(() => screen.getByTestId('recipe-title'));
+    const title = await waitFor(() => screen.getByTestId(recipeTitle));
     expect(title).toBeInTheDocument();
     expect(fetch).toHaveBeenCalled();
-    const photo = await waitFor(() => screen.getByTestId('recipe-photo'));
+    const photo = await waitFor(() => screen.getByTestId(recipePhoto));
     expect(photo).toBeInTheDocument();
 
     const favoriteBtn = await waitFor(() => screen.getByTestId('favorite-btn'));
@@ -147,12 +151,12 @@ describe('Testando o componente RecipeDetails', () => {
   it('Verifica se eh possivel compartilhar uma receita', async () => {
     act(() => {
       const { history } = renderWithRouter(<App />);
-      history.push('/drinks/178319/in-progress');
+      history.push(rotaDrinks);
     });
-    const title = await waitFor(() => screen.getByTestId('recipe-title'));
+    const title = await waitFor(() => screen.getByTestId(recipeTitle));
     expect(title).toBeInTheDocument();
     expect(fetch).toHaveBeenCalled();
-    const photo = await waitFor(() => screen.getByTestId('recipe-photo'));
+    const photo = await waitFor(() => screen.getByTestId(recipePhoto));
     expect(photo).toBeInTheDocument();
 
     const shareBtn = await waitFor(() => screen.getByTestId('share-btn'));
@@ -163,15 +167,15 @@ describe('Testando o componente RecipeDetails', () => {
   it('Verifica se inicialmente o botao de finalizar receita esta desabilitado', async () => {
     act(() => {
       const { history } = renderWithRouter(<App />);
-      history.push('/drinks/178319/in-progress');
+      history.push(rotaDrinks);
     });
-    const title = await waitFor(() => screen.getByTestId('recipe-title'));
+    const title = await waitFor(() => screen.getByTestId(recipeTitle));
     expect(title).toBeInTheDocument();
     expect(fetch).toHaveBeenCalled();
-    const photo = await waitFor(() => screen.getByTestId('recipe-photo'));
+    const photo = await waitFor(() => screen.getByTestId(recipePhoto));
     expect(photo).toBeInTheDocument();
 
-    const finishBtn = await waitFor(() => screen.getByTestId('finish-recipe-btn'));
+    const finishBtn = await waitFor(() => screen.getByTestId(finishRecipe));
     expect(finishBtn).toBeInTheDocument();
     expect(finishBtn).toBeDisabled();
 
@@ -199,16 +203,16 @@ describe('Testando o componente RecipeDetails', () => {
 
     act(() => {
       const { history } = renderWithRouter(<App />);
-      history.push('/drinks/178319/in-progress');
+      history.push(rotaDrinks);
     });
 
-    const title = await waitFor(() => screen.getByTestId('recipe-title'));
+    const title = await waitFor(() => screen.getByTestId(recipeTitle));
     expect(title).toBeInTheDocument();
     expect(fetch).toHaveBeenCalled();
-    const photo = await waitFor(() => screen.getByTestId('recipe-photo'));
+    const photo = await waitFor(() => screen.getByTestId(recipePhoto));
     expect(photo).toBeInTheDocument();
 
-    const finishBtn = await waitFor(() => screen.getByTestId('finish-recipe-btn'));
+    const finishBtn = await waitFor(() => screen.getByTestId(finishRecipe));
     expect(finishBtn).toBeInTheDocument();
     expect(finishBtn).not.toBeDisabled();
     userEvent.click(finishBtn);
@@ -247,16 +251,16 @@ describe('Testando o componente RecipeDetails', () => {
 
     act(() => {
       const { history } = renderWithRouter(<App />);
-      history.push('/drinks/178319/in-progress');
+      history.push(rotaDrinks);
     });
 
-    const title = await waitFor(() => screen.getByTestId('recipe-title'));
+    const title = await waitFor(() => screen.getByTestId(recipeTitle));
     expect(title).toBeInTheDocument();
     expect(fetch).toHaveBeenCalled();
-    const photo = await waitFor(() => screen.getByTestId('recipe-photo'));
+    const photo = await waitFor(() => screen.getByTestId(recipePhoto));
     expect(photo).toBeInTheDocument();
 
-    const finishBtn = await waitFor(() => screen.getByTestId('finish-recipe-btn'));
+    const finishBtn = await waitFor(() => screen.getByTestId(finishRecipe));
     expect(finishBtn).toBeInTheDocument();
 
     userEvent.click(finishBtn);
@@ -294,13 +298,13 @@ describe('Testando o componente RecipeDetails', () => {
       history.push('/meals/52977/in-progress');
     });
 
-    const title = await waitFor(() => screen.getByTestId('recipe-title'));
+    const title = await waitFor(() => screen.getByTestId(recipeTitle));
     expect(title).toBeInTheDocument();
     expect(fetch).toHaveBeenCalled();
-    const photo = await waitFor(() => screen.getByTestId('recipe-photo'));
+    const photo = await waitFor(() => screen.getByTestId(recipePhoto));
     expect(photo).toBeInTheDocument();
 
-    const finishBtn = await waitFor(() => screen.getByTestId('finish-recipe-btn'));
+    const finishBtn = await waitFor(() => screen.getByTestId(finishRecipe));
     expect(finishBtn).toBeInTheDocument();
 
     userEvent.click(finishBtn);
