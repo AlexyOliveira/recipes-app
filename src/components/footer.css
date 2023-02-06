@@ -1,0 +1,15 @@
+footer {
+  background-color: #fcdc36;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+
+}
+
+footer input {
+  margin: 10px 40px;
+  width: 25px;
+}

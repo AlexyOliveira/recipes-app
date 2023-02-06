@@ -7,6 +7,13 @@ import Recipes from '../components/Recipes';
 import { drinkResults, pageTitle } from '../redux/actions';
 import { getDrinkName, getDrinksbyFilter } from '../services/drinksAPI';
 import { getDrinkCategories } from '../services/api';
+import cocoa from '../images/cocoa.png';
+import other from '../images/other.png';
+import shake from '../images/shake.png';
+import cocktail from '../images/cocktail.png';
+import ordinaryDrink from '../images/ordinaryDrink.png';
+import allDrink from '../images/allDrink.png';
+import './meals.css';
 
 class Drinks extends Component {
   state = {
@@ -84,38 +91,58 @@ class Drinks extends Component {
     const { history, drinks } = this.props;
     const { drinkCategories } = this.state;
     return (
-      <>
-        <div>
-          <Header history={ history } />
-          <button
-            onClick={ this.handleAll }
-            data-testid="All-category-filter"
-            type="button"
-          >
+      <div className="mealsContainer">
+        <Header history={ history } />
+        <div className="categories">
+          <label htmlFor="allId">
+            <input
+              id="allId"
+              className="categorie"
+              type="image"
+              onClick={ this.handleAll }
+              data-testid="All-category-filter"
+              alt="all"
+              src={ allDrink }
+            />
             All
-          </button>
+          </label>
           {drinkCategories.map((categorie, index) => (
-            <button
-              data-testid={ `${categorie.strCategory}-category-filter` }
-              type="button"
-              key={ index }
-              name={ categorie.strCategory }
-              onClick={ this.handleCategorieClick }
-            >
+            <label key={ index } htmlFor="id">
+              <input
+                id="id"
+                className="categorie"
+                data-testid={ `${categorie.strCategory}-category-filter` }
+                type="image"
+                src={ (() => {
+                  if (categorie.strCategory === 'Ordinary Drink') {
+                    return ordinaryDrink;
+                  }
+                  if (categorie.strCategory === 'Cocktail') return cocktail;
+                  if (categorie.strCategory === 'Shake') return shake;
+                  if (categorie.strCategory === 'Other / Unknown') return other;
+                  if (categorie.strCategory === 'Cocoa') return cocoa;
+                  return null;
+                })() }
+                key={ index }
+                name={ categorie.strCategory }
+                alt={ categorie.strCategory }
+                onClick={ this.handleCategorieClick }
+              />
               {categorie.strCategory}
-            </button>
+            </label>
           ))}
-          <Recipes value={ drinks } />
         </div>
+        <Recipes value={ drinks } />
         <Footer />
-      </>
+      </div>
     );
   }
 }
 
 Drinks.propTypes = {
   // drinks: PropTypes.arrayOf.isRequired,
-  drinks: PropTypes.arrayOf(PropTypes.shape({ strIBA: PropTypes.string })).isRequired,
+  drinks: PropTypes.arrayOf(PropTypes.shape({ strIBA: PropTypes.string }))
+    .isRequired,
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,

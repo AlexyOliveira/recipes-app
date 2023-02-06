@@ -1,0 +1,15 @@
+.mealsContainer {
+  background-color: whitesmoke;
+}
+
+.categorie {
+  width: 60px;
+}
+
+.categories {
+  align-self: center;
+  display: flex;
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: center;
+}

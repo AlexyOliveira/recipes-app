@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import './recipes.css';
 
 class Recipes extends Component {
   handleCardClick = (id) => {
@@ -18,10 +19,11 @@ class Recipes extends Component {
 
     const keys = Object.keys(value[0]);
     return (
-      <div>
+      <div className="card-group cardContainer">
         {keys.includes('strMeal')
           ? value.map((meal, index) => (
             <div
+              className="card cardStyle"
               tabIndex="0"
               onClick={ () => this.handleCardClick(`meal.${meal.idMeal}`) }
               onKeyPress={ (e) => {
@@ -34,15 +36,19 @@ class Recipes extends Component {
               data-testid={ `${index}-recipe-card` }
             >
               <img
+                className="card-img-top"
                 data-testid={ `${index}-card-img` }
                 src={ meal.strMealThumb }
                 alt=""
               />
-              <h2 data-testid={ `${index}-card-name` }>{meal.strMeal}</h2>
+              <h2 className="card-title" data-testid={ `${index}-card-name` }>
+                {meal.strMeal}
+              </h2>
             </div>
           ))
           : value.map((drink, index) => (
             <div
+              className="card cardStyle"
               tabIndex="0"
               onClick={ () => this.handleCardClick(`drink.${drink.idDrink}`) }
               onKeyPress={ (e) => {
@@ -55,11 +61,14 @@ class Recipes extends Component {
               data-testid={ `${index}-recipe-card` }
             >
               <img
+                className="card-img-top"
                 data-testid={ `${index}-card-img` }
                 src={ drink.strDrinkThumb }
                 alt=""
               />
-              <h2 data-testid={ `${index}-card-name` }>{drink.strDrink}</h2>
+              <h2 className="card-title" data-testid={ `${index}-card-name` }>
+                {drink.strDrink}
+              </h2>
             </div>
           ))}
       </div>

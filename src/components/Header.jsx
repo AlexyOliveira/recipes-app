@@ -6,6 +6,8 @@ import profile from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 import { searchValue, globalStateHistory } from '../redux/actions';
+import './header.css';
+import recipesApp from '../images/recipesApp.png';
 
 class Header extends Component {
   state = {
@@ -21,6 +23,7 @@ class Header extends Component {
   handleProfileSubmit = () => {
     const { history } = this.props;
     history.push('/profile');
+    console.log(history);
   };
 
   handleSearchSubmit = () => {
@@ -34,37 +37,67 @@ class Header extends Component {
     const { title, dispatch, history } = this.props;
     const { searchInput, searchChange } = this.state;
     return (
-      <div>
-        <h1 data-testid="page-title">{title}</h1>
-        <button
-          type="button"
-          onClick={ this.handleProfileSubmit }
-        >
-          <img data-testid="profile-top-btn" src={ profile } alt="profile-icon" />
-        </button>
-        {title !== 'Profile'
-          && title !== 'Favorite Recipes'
-          && title !== 'Done Recipes'
-          && (
-            <form>
-              <SearchBar history={ history } />
-              <button
-                type="button"
-                onClick={ this.handleSearchSubmit }
-              >
-                <img data-testid="search-top-btn" src={ searchIcon } alt="search-icon" />
-              </button>
-            </form>
-          )}
-        {searchInput && <input
-          value={ searchChange }
-          onChange={ ({ target }) => this.setState({
-            searchChange: target.value,
-          }, () => dispatch(searchValue(target.value))) }
-          data-testid="search-input"
-          type="text"
-        />}
-      </div>
+      <>
+        <div className="headerContainer">
+          <img src={ recipesApp } alt="recipesApp" />
+          <div className="profileAndSearchIcon">
+            <input
+              onClick={ this.handleProfileSubmit }
+              type="image"
+              src={ profile }
+              name="profileIcon"
+              data-testid="profile-top-btn"
+              alt="profile-icon"
+            />
+
+            {title !== 'Profile'
+              && title !== 'Favorite Recipes'
+              && title !== 'Done Recipes'
+              && (
+                <input
+                  onClick={ this.handleSearchSubmit }
+                  type="image"
+                  src={ searchIcon }
+                  name="searchIcon"
+                  data-testid="search-top-btn"
+                  alt="search-icon"
+                />
+              )}
+          </div>
+        </div>
+
+        <div className="titles">
+          {
+            (() => {
+              if (
+                title === 'Drinks'
+              ) return <i className="fa-solid fa-martini-glass-citrus icon" />;
+              if (title === 'Meals') return <i className="fa-solid fa-utensils icon" />;
+              return null;
+            })()
+          }
+
+          <h1 data-testid="page-title">{title}</h1>
+        </div>
+
+        {searchInput && (
+          <div className="searchBar">
+            <input
+              className="searchInput"
+              value={ searchChange }
+              onChange={ ({ target }) => this.setState(
+                {
+                  searchChange: target.value,
+                },
+                () => dispatch(searchValue(target.value)),
+              ) }
+              data-testid="search-input"
+              type="text"
+            />
+            <SearchBar history={ history } />
+          </div>
+        )}
+      </>
     );
   }
 }

@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import './meals.css';
+import beef from '../images/beef.png';
+import goat from '../images/goat.png';
+import chicken from '../images/chicken.png';
+import breakFast from '../images/breakFast.png';
+import dessert from '../images/dessert.png';
+import all from '../images/all.png';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -84,29 +91,48 @@ class Meals extends Component {
     const { history, meals } = this.props;
     const { mealsCategories } = this.state;
     return (
-      <>
+      <div className="mealsContainer">
         <Header history={ history } />
-        <button
-          onClick={ this.handleAll }
-          data-testid="All-category-filter"
-          type="button"
-        >
-          All
-        </button>
-        {mealsCategories.map((categorie, index) => (
-          <button
-            data-testid={ `${categorie.strCategory}-category-filter` }
-            type="button"
-            key={ index }
-            onClick={ this.handleCategorieClick }
-            name={ categorie.strCategory }
-          >
-            {categorie.strCategory}
-          </button>
-        ))}
+        <div className="categories">
+          <label htmlFor="allId">
+            <input
+              id="allId"
+              className="categorie"
+              type="image"
+              onClick={ this.handleAll }
+              data-testid="All-category-filter"
+              alt="all"
+              src={ all }
+            />
+            All
+          </label>
+          {mealsCategories.map((categorie, index) => (
+            <label key={ index } htmlFor="id">
+              <input
+                id="id"
+                className="categorie"
+                data-testid={ `${categorie.strCategory}-category-filter` }
+                type="image"
+                src={ (() => {
+                  if (categorie.strCategory === 'Beef') return beef;
+                  if (categorie.strCategory === 'Goat') return goat;
+                  if (categorie.strCategory === 'Chicken') return chicken;
+                  if (categorie.strCategory === 'Breakfast') return breakFast;
+                  if (categorie.strCategory === 'Dessert') return dessert;
+                  return null;
+                })() }
+                key={ index }
+                onClick={ this.handleCategorieClick }
+                name={ categorie.strCategory }
+                alt={ categorie.strCategory }
+              />
+              {categorie.strCategory}
+            </label>
+          ))}
+        </div>
         <Recipes value={ meals } />
         <Footer />
-      </>
+      </div>
     );
   }
 }
@@ -117,7 +143,8 @@ const mapStateToProps = (globalState) => ({
 });
 
 Meals.propTypes = {
-  meals: PropTypes.arrayOf(PropTypes.shape({ strArea: PropTypes.string })).isRequired,
+  meals: PropTypes.arrayOf(PropTypes.shape({ strArea: PropTypes.string }))
+    .isRequired,
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,

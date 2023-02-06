@@ -1,0 +1,51 @@
+.headerContainer {
+  background-color: #fcdc36;
+  display: flex;
+  height: 52px;
+  justify-content: space-between;
+  padding: 2px;
+  width: 100%;
+}
+
+.profileAndSearchIcon {
+  align-items: center;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
+  width: 105px;
+}
+
+.headerContainer img {
+  margin-left: 10px;
+}
+
+.searchInput {
+  background: white;
+  border: 1px solid #b1b1b1;
+  border-radius: 5px;
+  box-sizing: border-box;
+  height: 40px;
+  width: 90%;
+}
+
+.titles {
+  color: #41197f;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: 0.105em;
+  margin: 20px;
+  text-align: center;
+  text-transform: uppercase;
+
+}
+
+.titles img {
+  margin: 10px;
+
+}
+
+.icon {
+  color: #6e28d6;
+  font-size: 50px;
+}

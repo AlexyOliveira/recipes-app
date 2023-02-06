@@ -1,0 +1,29 @@
+.searchBar {
+  background-color: #41197f;
+  border-radius: 10px;
+
+  /* display: flex;
+flex-direction: column; */
+  color: white;
+  height: 100%;
+  margin: 0 10px 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.searchBar button {
+  margin: 5px;
+  padding: 5px;
+  width: 70%;
+}
+
+.searchBar input {
+  margin: 2px;
+
+}
+
+.inputsContainer {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px;
+}

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import './login.css';
+import Tomato from '../images/tomate.png';
+import logo from '../images/logo.png';
 
 class Login extends Component {
   state = {
@@ -39,31 +42,49 @@ class Login extends Component {
   render() {
     const { password, email, isRequired } = this.state;
     return (
-      <form>
-        <input
-          onChange={ this.handleChange }
-          data-testid="email-input"
-          type="email"
-          name="email"
-          value={ email }
-        />
-        <input
-          onChange={ this.handleChange }
-          data-testid="password-input"
-          type="password"
-          name="password"
-          value={ password }
-        />
-        <button
-          disabled={ !isRequired }
-          onClick={ this.handleSubmit }
-          data-testid="login-submit-btn"
-          type="button"
-        >
-          {' '}
-          Submit
-        </button>
-      </form>
+      <div className="loginContainer">
+        <div className="logoArea">
+          <img className="logo" src={ logo } alt="logo" />
+          <img className="tomato" src={ Tomato } alt="tomato" />
+        </div>
+
+        <div className="formArea">
+          <h1 className="login">login</h1>
+          <form>
+            <div className="imputs">
+              <input
+                className="inputForm"
+                onChange={ this.handleChange }
+                data-testid="email-input"
+                type="email"
+                name="email"
+                value={ email }
+              />
+              <input
+                className="inputForm"
+                onChange={ this.handleChange }
+                data-testid="password-input"
+                type="password"
+                name="password"
+                value={ password }
+              />
+              <button
+                className="btn btn-warning btnLogin"
+                disabled={ !isRequired }
+                onClick={ this.handleSubmit }
+                data-testid="login-submit-btn"
+                type="button"
+              >
+                {' '}
+                Submit
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+
     );
   }
 }
