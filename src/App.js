@@ -11,7 +11,7 @@ import FavoriteRecipes from './pages/FavoriteRecipes';
 import Meals from './pages/Meals';
 import Drinks from './pages/Drinks';
 import store from './redux/store';
-import RecipesInProgress from './pages/RecipesInProgress';
+import RecipesInProgress from './pages/RecipeInProgress';
 
 function App() {
   return (

@@ -36,6 +36,15 @@ function RecipesInProgress() {
     }
   }, [id]);
 
+  const riscaCheckboxes = (event) => {
+    const { target } = event;
+    if (target.checked) {
+      target.parentNode.style.textDecoration = 'line-through solid rgb(0, 0, 0)';
+    } else {
+      target.parentNode.style.textDecoration = 'none';
+    }
+  };
+
   return (
     <div>
       <button
@@ -80,14 +89,15 @@ function RecipesInProgress() {
                 }
                 return acc;
               }, [])
-              .map((ingredient) => (
-                <li key={ index }>
+              .map((ingredient, i) => (
+                <li key={ i }>
                   <label
                     htmlFor={ ingredient }
-                    data-testid={ `${index}-ingredient-step` }
+                    data-testid={ `${i}-ingredient-step` }
                   >
                     <input
                       type="checkbox"
+                      onClick={ riscaCheckboxes }
                     />
                     {ingredient}
                   </label>
