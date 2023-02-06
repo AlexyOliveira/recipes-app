@@ -12,6 +12,9 @@ function RecipesInProgress() {
 
   const [recipe, setRecipe] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [storage, setStorage] = useState([]);
+
+  const stylito = 'line-through solid rgb(0, 0, 0)';
 
   useEffect(() => {
     const getRecipe = async () => {
@@ -36,11 +39,59 @@ function RecipesInProgress() {
     }
   }, [id]);
 
-  const riscaCheckboxes = (event) => {
-    const { target } = event;
+  useEffect(() => {
+    const progressStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (progressStorage === null) {
+      if (typeLocation === 'meals') {
+        localStorage.setItem('inProgressRecipes', JSON.stringify({
+          meals: { [id]: [] },
+          drinks: {},
+        }));
+      } else {
+        localStorage.setItem('inProgressRecipes', JSON.stringify({
+          meals: {},
+          drinks: { [id]: [] },
+        }));
+      }
+    } else if (progressStorage !== null && recipe.length > 0) {
+      const getNewStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const storageId = getNewStorage[typeLocation][id];
+
+      // check the checkbox
+      const checkbox = document.querySelectorAll('input[type="checkbox"]');
+
+      checkbox.forEach((item) => {
+        if (storageId.includes(item.parentNode.innerText)) {
+          item.checked = true;
+          item.parentNode.style.textDecoration = stylito;
+        }
+      });
+    }
+  }, [recipe, id, typeLocation]);
+
+  const riscaCheckboxes = ({ target }) => {
+    const getStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+
     if (target.checked) {
-      target.parentNode.style.textDecoration = 'line-through solid rgb(0, 0, 0)';
+      target.parentNode.style.textDecoration = stylito;
+      localStorage.setItem('inProgressRecipes', JSON.stringify({
+        ...getStorage,
+        [typeLocation]: {
+          ...getStorage[typeLocation],
+          [id]: [...getStorage[typeLocation][id], target.parentNode.innerText],
+        },
+      }));
+      setStorage([...storage, target.parentNode.innerText]);
     } else {
+      localStorage.setItem('inProgressRecipes', JSON.stringify({
+        ...getStorage,
+        [typeLocation]: {
+          ...getStorage[typeLocation],
+          [id]: getStorage[typeLocation][id]
+            .filter((item) => item !== target.parentNode.innerText),
+        },
+      }));
+      setStorage(storage.filter((item) => item !== target.parentNode.innerText));
       target.parentNode.style.textDecoration = 'none';
     }
   };
@@ -94,10 +145,14 @@ function RecipesInProgress() {
                   <label
                     htmlFor={ ingredient }
                     data-testid={ `${i}-ingredient-step` }
+                    style={ storage.length > 0 && storage.includes(ingredient)
+                      ? { textDecoration: stylito }
+                      : { textDecoration: 'none' } }
                   >
                     <input
                       type="checkbox"
                       onClick={ riscaCheckboxes }
+                      id={ ingredient }
                     />
                     {ingredient}
                   </label>

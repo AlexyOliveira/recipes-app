@@ -9,7 +9,7 @@ import oneDrink from '../../cypress/mocks/oneDrink';
 import oneMeal from '../../cypress/mocks/oneMeal';
 import App from '../App';
 
-const textDeco = 'text-decoration: line-through solid rgb(0, 0, 0);';
+const textDeco = 'text-decoration: line-through solid rgb(0, 0, 0)';
 
 describe('Testando o componente RecipeDetails', () => {
   beforeEach(() => {
@@ -71,6 +71,14 @@ describe('Testando o componente RecipeDetails', () => {
   });
 
   it('Verifica se eh possivel clicar nos checkbox e checa qual seu estilo', async () => {
+    const inProgressStorage = {
+      drinks: {
+        178319: [],
+      },
+      meals: {},
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressStorage));
+
     act(() => {
       const { history } = renderWithRouter(<App />);
       history.push('/drinks/178319/in-progress');
@@ -88,6 +96,10 @@ describe('Testando o componente RecipeDetails', () => {
       userEvent.click(checkbox);
     });
 
+    checkboxes.forEach((checkbox) => {
+      expect(checkbox).toBeChecked();
+    });
+
     const getIngredStep0 = await waitFor(() => screen.getByTestId('0-ingredient-step'));
     const getIngredStep1 = await waitFor(() => screen.getByTestId('1-ingredient-step'));
     const getIngredStep2 = await waitFor(() => screen.getByTestId('2-ingredient-step'));
@@ -98,6 +110,10 @@ describe('Testando o componente RecipeDetails', () => {
 
     checkboxes.forEach((checkbox) => {
       userEvent.click(checkbox);
+    });
+
+    checkboxes.forEach((checkbox) => {
+      expect(checkbox).not.toBeChecked();
     });
 
     expect(getIngredStep0).not.toHaveStyle(textDeco);
