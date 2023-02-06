@@ -67,11 +67,15 @@ class Header extends Component {
         </div>
 
         <div className="titles">
-          {title === 'Drinks' ? (
-            <i className="fa-solid fa-martini-glass-citrus icon" />
-          ) : (
-            <i className="fa-solid fa-utensils icon" />
-          )}
+          {
+            (() => {
+              if (
+                title === 'Drinks'
+              ) return <i className="fa-solid fa-martini-glass-citrus icon" />;
+              if (title === 'Meals') return <i className="fa-solid fa-utensils icon" />;
+              return null;
+            })()
+          }
 
           <h1 data-testid="page-title">{title}</h1>
         </div>
