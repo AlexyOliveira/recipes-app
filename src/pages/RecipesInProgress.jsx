@@ -28,7 +28,7 @@ function RecipesInProgress() {
 
   useEffect(() => {
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    if (favoriteRecipes) {
+    if (favoriteRecipes !== null) {
       const favorite = favoriteRecipes.find((item) => item.id === id);
       if (favorite) {
         setIsFavorite(true);
@@ -80,9 +80,17 @@ function RecipesInProgress() {
                 }
                 return acc;
               }, [])
-              .map((ingredient, i) => (
-                <li key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
-                  {`${ingredient} - ${item[`strMeasure${i + 1}`]}`}
+              .map((ingredient) => (
+                <li key={ index }>
+                  <label
+                    htmlFor={ ingredient }
+                    data-testid={ `${index}-ingredient-step` }
+                  >
+                    <input
+                      type="checkbox"
+                    />
+                    {ingredient}
+                  </label>
                 </li>
               ))}
           </ul>

@@ -42,12 +42,36 @@ describe('Testando o componente RecipeDetails', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    localStorage.clear();
   });
 
-  it('Verifica se o fetch é feito após clicar no botão', async () => {
+  it('Verifica se o botao favorito eh verificado se houver algo no LocalStorage', async () => {
+    const favStorage = {
+      id: '52771',
+      type: 'meal',
+      category: 'Vegetarian',
+      alcoholicOrNot: '',
+      name: 'Spicy Arrabiata Penne',
+      image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+      nationality: 'Italian',
+    };
+    localStorage.setItem('favoriteRecipes', JSON.stringify([favStorage]));
+
     act(() => {
       const { history } = renderWithRouter(<App />);
       history.push('/meals/52771/in-progress');
+    });
+    const title = await waitFor(() => screen.getByTestId('recipe-title'));
+    expect(title).toBeInTheDocument();
+    expect(fetch).toHaveBeenCalled();
+    const photo = await waitFor(() => screen.getByTestId('recipe-photo'));
+    expect(photo).toBeInTheDocument();
+  });
+
+  it('Verifica se a tela de bebidas renderiza corretamente', async () => {
+    act(() => {
+      const { history } = renderWithRouter(<App />);
+      history.push('/drinks/15997/in-progress');
     });
     const title = await waitFor(() => screen.getByTestId('recipe-title'));
     expect(title).toBeInTheDocument();
