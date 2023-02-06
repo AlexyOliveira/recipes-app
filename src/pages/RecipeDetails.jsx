@@ -32,6 +32,7 @@ function RecipeDetails() {
         setRecommendations(mealCategories);
       }
     };
+
     getRecipe();
   }, [location, id, type]);
   useEffect(() => {
