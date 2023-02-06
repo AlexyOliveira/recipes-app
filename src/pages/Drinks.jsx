@@ -53,6 +53,9 @@ class Drinks extends Component {
     if (isCategorieCliked === target.name) {
       const drinksReturn = await getDrinkName('');
       this.handleResultDrinks(drinksReturn.drinks);
+      this.setState({
+        isCategorieCliked: '',
+      });
     }
   };
 
