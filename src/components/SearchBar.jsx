@@ -152,7 +152,7 @@ class SearchBar extends Component {
               type="radio"
               onChange={ this.handleChange }
             />
-            First letter
+            First lette
           </label>
         </div>
 
