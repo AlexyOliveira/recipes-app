@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { getMealById, getDrinkById } from '../services/api';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -140,6 +140,28 @@ function RecipesInProgress() {
     }
   }, [isDisabled, storage]);
 
+  const doneRecipe = () => {
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    const { strMeal, strDrink, strCategory, strArea,
+      strAlcoholic, strMealThumb, strDrinkThumb } = recipe[0];
+    const done = {
+      id,
+      type: typeLocation === 'meals' ? 'meal' : 'drink',
+      category: strCategory || '',
+      alcoholicOrNot: strAlcoholic || '',
+      name: strMeal || strDrink,
+      image: strMealThumb || strDrinkThumb,
+      nationality: strArea || '',
+      doneDate: new Date(),
+      tags: recipe[0].strTags ? recipe[0].strTags.split(',') : [],
+    };
+    if (doneRecipes === null) {
+      localStorage.setItem('doneRecipes', JSON.stringify([done]));
+    } else {
+      localStorage.setItem('doneRecipes', JSON.stringify([...doneRecipes, done]));
+    }
+  };
+
   return (
     <div>
       <button
@@ -209,13 +231,16 @@ function RecipesInProgress() {
           </ul>
           <h3>Instructions</h3>
           <p data-testid="instructions">{item.strInstructions}</p>
-          <button
-            type="button"
-            data-testid="finish-recipe-btn"
-            disabled={ isDisabled }
-          >
-            Finish Recipe
-          </button>
+          <Link to="/done-recipes">
+            <button
+              type="button"
+              data-testid="finish-recipe-btn"
+              disabled={ isDisabled }
+              onClick={ doneRecipe }
+            >
+              Finish Recipe
+            </button>
+          </Link>
         </div>
       ))}
     </div>

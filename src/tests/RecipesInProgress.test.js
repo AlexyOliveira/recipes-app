@@ -183,4 +183,129 @@ describe('Testando o componente RecipeDetails', () => {
 
     expect(finishBtn).not.toBeDisabled();
   });
+
+  it('Verifica se eh possivel finalizar uma receita', async () => {
+    const inProgress = {
+      drinks: {
+        178319: [
+          'Hpnotiq',
+          'Pineapple Juice',
+          'Banana Liqueur',
+        ],
+      },
+      meals: {},
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgress));
+
+    act(() => {
+      const { history } = renderWithRouter(<App />);
+      history.push('/drinks/178319/in-progress');
+    });
+
+    const title = await waitFor(() => screen.getByTestId('recipe-title'));
+    expect(title).toBeInTheDocument();
+    expect(fetch).toHaveBeenCalled();
+    const photo = await waitFor(() => screen.getByTestId('recipe-photo'));
+    expect(photo).toBeInTheDocument();
+
+    const finishBtn = await waitFor(() => screen.getByTestId('finish-recipe-btn'));
+    expect(finishBtn).toBeInTheDocument();
+    expect(finishBtn).not.toBeDisabled();
+    userEvent.click(finishBtn);
+  });
+
+  it('Verifica se eh possivel acessar a tela de receitas feitas', async () => {
+    const doneRecipes = [
+      {
+        id: '52977',
+        type: 'meal',
+        category: 'Side',
+        alcoholicOrNot: '',
+        name: 'Corba',
+        image: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg',
+        nationality: 'Turkish',
+        doneDate: '2023-02-06T07:14:01.377Z',
+        tags: [
+          'Soup',
+        ],
+      },
+    ];
+
+    const inProgress = {
+      drinks: {
+        178319: [
+          'Hpnotiq',
+          'Pineapple Juice',
+          'Banana Liqueur',
+        ],
+      },
+      meals: {},
+    };
+
+    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgress));
+
+    act(() => {
+      const { history } = renderWithRouter(<App />);
+      history.push('/drinks/178319/in-progress');
+    });
+
+    const title = await waitFor(() => screen.getByTestId('recipe-title'));
+    expect(title).toBeInTheDocument();
+    expect(fetch).toHaveBeenCalled();
+    const photo = await waitFor(() => screen.getByTestId('recipe-photo'));
+    expect(photo).toBeInTheDocument();
+
+    const finishBtn = await waitFor(() => screen.getByTestId('finish-recipe-btn'));
+    expect(finishBtn).toBeInTheDocument();
+
+    userEvent.click(finishBtn);
+
+    const doneBtn = await waitFor(() => screen.getByTestId('profile-top-btn'));
+    expect(doneBtn).toBeInTheDocument();
+  });
+
+  it('Verifica se eh possivel acessar a tela de receitas favoritas na tela meals', async () => {
+    const progress = {
+      meals: {
+        52977: [
+          'Lentils',
+          'Onion',
+          'Carrots',
+          'Tomato Puree',
+          'Cumin',
+          'Paprika',
+          'Mint',
+          'Thyme',
+          'Black Pepper',
+          'Red Pepper Flakes',
+          'Vegetable Stock',
+          'Water',
+          'Sea Salt',
+        ],
+      },
+      drinks: {},
+    };
+
+    localStorage.setItem('inProgressRecipes', JSON.stringify(progress));
+
+    act(() => {
+      const { history } = renderWithRouter(<App />);
+      history.push('/meals/52977/in-progress');
+    });
+
+    const title = await waitFor(() => screen.getByTestId('recipe-title'));
+    expect(title).toBeInTheDocument();
+    expect(fetch).toHaveBeenCalled();
+    const photo = await waitFor(() => screen.getByTestId('recipe-photo'));
+    expect(photo).toBeInTheDocument();
+
+    const finishBtn = await waitFor(() => screen.getByTestId('finish-recipe-btn'));
+    expect(finishBtn).toBeInTheDocument();
+
+    userEvent.click(finishBtn);
+
+    const doneBtn = await waitFor(() => screen.getByTestId('profile-top-btn'));
+    expect(doneBtn).toBeInTheDocument();
+  });
 });
