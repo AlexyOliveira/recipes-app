@@ -1,7 +1,7 @@
 .headerContainer {
   background-color: #fcdc36;
   display: flex;
-  height: 52px;
+  height: 30%;
   justify-content: space-between;
   padding: 2px;
   width: 100%;
@@ -17,6 +17,7 @@
 
 .headerContainer img {
   margin-left: 10px;
+  width: 50%;
 }
 
 .searchInput {
@@ -48,4 +49,8 @@
 .icon {
   color: #6e28d6;
   font-size: 50px;
+}
+
+.profileIcon {
+  margin-left: 20px;
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import profile from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
@@ -39,9 +40,13 @@ class Header extends Component {
     return (
       <>
         <div className="headerContainer">
-          <img src={ recipesApp } alt="recipesApp" />
+          <Link to="/meals">
+            <img src={ recipesApp } alt="recipesApp" />
+          </Link>
+
           <div className="profileAndSearchIcon">
             <input
+              className="profileIcon"
               onClick={ this.handleProfileSubmit }
               type="image"
               src={ profile }
