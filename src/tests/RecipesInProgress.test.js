@@ -159,4 +159,28 @@ describe('Testando o componente RecipeDetails', () => {
     expect(shareBtn).toBeInTheDocument();
     userEvent.click(shareBtn);
   });
+
+  it('Verifica se inicialmente o botao de finalizar receita esta desabilitado', async () => {
+    act(() => {
+      const { history } = renderWithRouter(<App />);
+      history.push('/drinks/178319/in-progress');
+    });
+    const title = await waitFor(() => screen.getByTestId('recipe-title'));
+    expect(title).toBeInTheDocument();
+    expect(fetch).toHaveBeenCalled();
+    const photo = await waitFor(() => screen.getByTestId('recipe-photo'));
+    expect(photo).toBeInTheDocument();
+
+    const finishBtn = await waitFor(() => screen.getByTestId('finish-recipe-btn'));
+    expect(finishBtn).toBeInTheDocument();
+    expect(finishBtn).toBeDisabled();
+
+    const checkboxes = await waitFor(() => screen.getAllByRole('checkbox'));
+
+    checkboxes.forEach((checkbox) => {
+      userEvent.click(checkbox);
+    });
+
+    expect(finishBtn).not.toBeDisabled();
+  });
 });

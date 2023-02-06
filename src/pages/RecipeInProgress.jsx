@@ -14,6 +14,7 @@ function RecipesInProgress() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [storage, setStorage] = useState([]);
   const [copiado, setCopiado] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const stylito = 'line-through solid rgb(0, 0, 0)';
 
@@ -127,6 +128,18 @@ function RecipesInProgress() {
     navigator.clipboard.writeText(url);
   };
 
+  useEffect(() => {
+    const checkbox = document.querySelectorAll('input[type="checkbox"]');
+    const array = [...checkbox];
+    console.log(array);
+    const check = array.every((item) => item.checked);
+    if (check) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [isDisabled, storage]);
+
   return (
     <div>
       <button
@@ -199,6 +212,7 @@ function RecipesInProgress() {
           <button
             type="button"
             data-testid="finish-recipe-btn"
+            disabled={ isDisabled }
           >
             Finish Recipe
           </button>
