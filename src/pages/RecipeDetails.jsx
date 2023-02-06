@@ -4,6 +4,7 @@ import { getMealById, getDrinkById, getAllMeals, getAllDrinks } from '../service
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import './RecipeDetails.css';
+import shaereIcon from '../images/shareIcon.svg';
 
 function RecipeDetails() {
   const location = useLocation();
@@ -106,53 +107,70 @@ function RecipeDetails() {
     }
   };
   return (
-    <div>
-      <h1>RecipeDetails</h1>
-      <button
-        type="button"
-        data-testid="share-btn"
-        onClick={ copiarClipBoard }
-      >
-        Share Recipe
-      </button>
-      <button
-        type="button"
-        data-testid="favorite-btn"
-        onClick={ saveFavorite }
-        src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-      >
-        <img src={ isFavorite ? blackHeartIcon : whiteHeartIcon } alt="favorite" />
-      </button>
+    <div className="recipeDetailsContainer">
       {copiado && <p>Link copied!</p>}
       {recipe.map((item, index) => (
         <div key={ index }>
-          <img
-            src={ item.strMealThumb || item.strDrinkThumb }
-            alt={ item.strMeal }
-            style={ { width: '200px' } }
-            data-testid="recipe-photo"
-          />
-          <h2 data-testid="recipe-title">{item.strMeal || item.strDrink}</h2>
-          <h3 data-testid="recipe-category">{item.strCategory}</h3>
-          <h3 data-testid="recipe-category">{item.strAlcoholic}</h3>
-          <h3>Ingredients</h3>
-          <ul>
-            {Object.keys(item)
-              .reduce((acc, key) => {
-                if (key.includes('Ingredient')
-                  && item[key] !== '' && item[key] !== null) {
-                  return [...acc, item[key]];
-                }
-                return acc;
-              }, [])
-              .map((ingredient, i) => (
-                <li key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
-                  {`${ingredient} - ${item[`strMeasure${i + 1}`]}`}
-                </li>
-              ))}
-          </ul>
+          <div className="card mb-3">
+            <img
+              className="recipeImg"
+              src={ item.strMealThumb || item.strDrinkThumb }
+              alt={ item.strMeal }
+              // style={ { width: '200px' } }
+              data-testid="recipe-photo"
+            />
+            <h2 className="recipeName" data-testid="recipe-title">
+              {item.strMeal || item.strDrink}
+            </h2>
+            <h3 data-testid="recipe-category">{item.strCategory}</h3>
+            <h3 data-testid="recipe-category">{item.strAlcoholic}</h3>
+            <div className="shareLike">
+              {/* <button type="button"  >
+                Share Recipe
+              </button> */}
+              <input
+                className="svgImg"
+                type="image"
+                src={ shaereIcon }
+                onClick={ copiarClipBoard }
+                data-testid="share-btn"
+                alt="shareIcon"
+              />
+              <input
+                className="favorite"
+                alt="favorite"
+                type="image"
+                data-testid="favorite-btn"
+                onClick={ saveFavorite }
+                src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+              />
+            </div>
+          </div>
+          <h3 className="ingre">Ingredients</h3>
+          <div className="ingredients">
+            <ul>
+              {Object.keys(item)
+                .reduce((acc, key) => {
+                  if (
+                    key.includes('Ingredient')
+                    && item[key] !== ''
+                    && item[key] !== null
+                  ) {
+                    return [...acc, item[key]];
+                  }
+                  return acc;
+                }, [])
+                .map((ingredient, i) => (
+                  <li key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
+                    {`${ingredient} - ${item[`strMeasure${i + 1}`]}`}
+                  </li>
+                ))}
+            </ul>
+          </div>
           <h3>Instructions</h3>
-          <p data-testid="instructions">{item.strInstructions}</p>
+          <div className="instructions">
+            <p data-testid="instructions">{item.strInstructions}</p>
+          </div>
           {/* use replace in the video to work */}
           {item.strYoutube && (
             <>
@@ -162,7 +180,9 @@ function RecipeDetails() {
                 title="recipe"
                 width="360"
                 height="315"
-                src={ `https://www.youtube.com/embed/${item.strYoutube.slice(magicNumber)}` }
+                src={ `https://www.youtube.com/embed/${item.strYoutube.slice(
+                  magicNumber,
+                )}` }
               />
             </>
           )}
@@ -172,16 +192,21 @@ function RecipeDetails() {
       <div className="recommendations" style={ { marginBottom: '50px' } }>
         {recommendations.map(
           (item, index) => index < magicN && (
-            <div key={ index }>
-              <img
-                data-testid={ `${index}-recommendation-card` }
-                src={ item.strMealThumb || item.strDrinkThumb }
-                alt={ item.strMeal || item.strDrink }
-                className="recommendation-img"
-              />
-              <h2 data-testid={ `${index}-recommendation-title` }>
-                {item.strMeal || item.strDrink}
-              </h2>
+            <div className="cardSlide" key={ index }>
+              <div className="card cardGrade">
+                <img
+                  data-testid={ `${index}-recommendation-card` }
+                  src={ item.strMealThumb || item.strDrinkThumb }
+                  alt={ item.strMeal || item.strDrink }
+                  className="recommendation-img card-img-top"
+                />
+                <h2
+                  className=""
+                  data-testid={ `${index}-recommendation-title` }
+                >
+                  {item.strMeal || item.strDrink}
+                </h2>
+              </div>
             </div>
           ),
         )}
@@ -192,6 +217,7 @@ function RecipeDetails() {
           data-testid="start-recipe-btn"
           className="start-recipe-btn"
           onClick={ startRecipeStorage }
+
         >
           {startedRecipe ? 'Continue Recipe' : 'Start Recipe'}
         </button>
