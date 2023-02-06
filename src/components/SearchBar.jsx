@@ -8,6 +8,7 @@ import {
   getDrinkName,
 } from '../services/drinksAPI';
 import { drinkResults, mealResults } from '../redux/actions';
+import './searchBar.css';
 
 class SearchBar extends Component {
   state = {
@@ -114,43 +115,49 @@ class SearchBar extends Component {
     const { radioSelected } = this.state;
     return (
       <>
-        <label htmlFor="ingredient">
-          Ingredient
-          <input
-            name="radios-group"
-            value={ radioSelected }
-            id="ingredient"
-            data-testid="ingredient-search-radio"
-            type="radio"
-            onChange={ this.handleChange }
-          />
-        </label>
+        <div className="inputsContainer">
+          <label htmlFor="ingredient">
 
-        <label htmlFor="name-search">
-          Name
-          <input
-            name="radios-group"
-            value={ radioSelected }
-            id="name-search"
-            data-testid="name-search-radio"
-            type="radio"
-            onChange={ this.handleChange }
-          />
-        </label>
+            <input
+              name="radios-group"
+              value={ radioSelected }
+              id="ingredient"
+              data-testid="ingredient-search-radio"
+              type="radio"
+              onChange={ this.handleChange }
+            />
+            Ingredient
+          </label>
 
-        <label htmlFor="first-letter">
-          First letter
-          <input
-            name="radios-group"
-            value={ radioSelected }
-            id="first-letter"
-            data-testid="first-letter-search-radio"
-            type="radio"
-            onChange={ this.handleChange }
-          />
-        </label>
+          <label htmlFor="name-search">
+
+            <input
+              name="radios-group"
+              value={ radioSelected }
+              id="name-search"
+              data-testid="name-search-radio"
+              type="radio"
+              onChange={ this.handleChange }
+            />
+            Name
+          </label>
+
+          <label htmlFor="first-letter">
+
+            <input
+              name="radios-group"
+              value={ radioSelected }
+              id="first-letter"
+              data-testid="first-letter-search-radio"
+              type="radio"
+              onChange={ this.handleChange }
+            />
+            First letter
+          </label>
+        </div>
 
         <button
+          className="btn btn-warning"
           type="submit"
           data-testid="exec-search-btn"
           onClick={ this.handleSubmitApi }

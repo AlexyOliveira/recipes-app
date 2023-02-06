@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -33,37 +34,70 @@ function FavoriteCards() {
     setFavorites(fg);
   };
 
+  const handleAll = () => {
+    const favoriteRecipes = localStorage.getItem('favoriteRecipes');
+    if (favoriteRecipes) {
+      setFavorites(JSON.parse(favoriteRecipes));
+    }
+  };
+
+  const handleMeals = () => {
+    const favoriteRecipes = localStorage.getItem('favoriteRecipes');
+    if (favoriteRecipes) {
+      const favoritesJson = JSON.parse(favoriteRecipes);
+      const favoriteMeals = favoritesJson.filter((favorite) => favorite.type === 'meal');
+      setFavorites(favoriteMeals);
+    }
+  };
+
+  const handleDrinks = () => {
+    const favoriteRecipes = localStorage.getItem('favoriteRecipes');
+    if (favoriteRecipes) {
+      const favoritesJson = JSON.parse(favoriteRecipes);
+      const favoriteMeals = favoritesJson.filter((favorite) => favorite.type === 'drink');
+      setFavorites(favoriteMeals);
+    }
+  };
+
   return (
     <div>
-      {console.log(favorites)}
-      <button data-testid="filter-by-all-btn" type="button">
+      <button onClick={ handleAll } data-testid="filter-by-all-btn" type="button">
         All
       </button>
-      <button data-testid="filter-by-meal-btn" type="button">
+      <button onClick={ handleMeals } data-testid="filter-by-meal-btn" type="button">
         Meals
       </button>
-      <button data-testid="filter-by-drink-btn" type="button">
+      <button onClick={ handleDrinks } data-testid="filter-by-drink-btn" type="button">
         Drinks
       </button>
       {favorites.map((card, index) => (
-        <div key={ index } className="card">
+        <div style={ { width: '400px' } } key={ index } className="card">
           {' '}
-          <img
-            data-testid={ `${index}-horizontal-image` }
-            src={ card.image }
-            alt=""
-          />
+          <Link id="imagem" to={ `/${card.type}s/${card.id}` }>
+            <img
+              id="img"
+              data-testid={ `${index}-horizontal-image` }
+              style={ { width: '400px' } }
+              src={ card.image }
+              alt={ card.img }
+            />
+          </Link>
+
           <h2 data-testid={ `${index}-horizontal-top-text` }>
             {card.type === 'drink'
               ? card.category
               : `${card.nationality} - ${card.category}`}
           </h2>
+
           {card.type === 'drink' && (
             <p data-testid={ `${index}-horizontal-top-text` }>
               {card.alcoholicOrNot}
             </p>
           )}
-          <p data-testid={ `${index}-horizontal-name` }>{card.name}</p>
+          <Link to={ `/${card.type}s/${card.id}` }>
+            <p data-testid={ `${index}-horizontal-name` }>{card.name}</p>
+          </Link>
+
           <button
             onClick={ () => clipBoardCopyUrl(card.id, card.type) }
             src={ shareIcon }
