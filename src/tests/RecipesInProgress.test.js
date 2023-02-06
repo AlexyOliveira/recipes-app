@@ -120,4 +120,43 @@ describe('Testando o componente RecipeDetails', () => {
     expect(getIngredStep1).not.toHaveStyle(textDeco);
     expect(getIngredStep2).not.toHaveStyle(textDeco);
   });
+
+  it('Verifica se eh possivel favoritar uma receita', async () => {
+    act(() => {
+      const { history } = renderWithRouter(<App />);
+      history.push('/drinks/178319/in-progress');
+    });
+    const title = await waitFor(() => screen.getByTestId('recipe-title'));
+    expect(title).toBeInTheDocument();
+    expect(fetch).toHaveBeenCalled();
+    const photo = await waitFor(() => screen.getByTestId('recipe-photo'));
+    expect(photo).toBeInTheDocument();
+
+    const favoriteBtn = await waitFor(() => screen.getByTestId('favorite-btn'));
+    expect(favoriteBtn).toBeInTheDocument();
+    userEvent.click(favoriteBtn);
+
+    const favoriteStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    expect(favoriteStorage).toHaveLength(1);
+    expect(favoriteStorage[0].id).toBe('178319');
+
+    userEvent.click(favoriteBtn);
+    expect(favoriteStorage).toHaveLength(0);
+  });
+
+  it('Verifica se eh possivel compartilhar uma receita', async () => {
+    act(() => {
+      const { history } = renderWithRouter(<App />);
+      history.push('/drinks/178319/in-progress');
+    });
+    const title = await waitFor(() => screen.getByTestId('recipe-title'));
+    expect(title).toBeInTheDocument();
+    expect(fetch).toHaveBeenCalled();
+    const photo = await waitFor(() => screen.getByTestId('recipe-photo'));
+    expect(photo).toBeInTheDocument();
+
+    const shareBtn = await waitFor(() => screen.getByTestId('share-btn'));
+    expect(shareBtn).toBeInTheDocument();
+    userEvent.click(shareBtn);
+  });
 });

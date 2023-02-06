@@ -13,6 +13,7 @@ function RecipesInProgress() {
   const [recipe, setRecipe] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [storage, setStorage] = useState([]);
+  const [copiado, setCopiado] = useState(false);
 
   const stylito = 'line-through solid rgb(0, 0, 0)';
 
@@ -96,12 +97,43 @@ function RecipesInProgress() {
     }
   };
 
+  const handleFavorite = () => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const { strMeal, strDrink, strCategory, strArea,
+      strAlcoholic, strMealThumb, strDrinkThumb } = recipe[0];
+    const favorite = {
+      id,
+      type: typeLocation === 'meals' ? 'meal' : 'drink',
+      category: strCategory || '',
+      alcoholicOrNot: strAlcoholic || '',
+      name: strMeal || strDrink,
+      image: strMealThumb || strDrinkThumb,
+      nationality: strArea || '',
+    };
+    if (isFavorite) {
+      const newFavorite = favoriteRecipes.filter((item) => item.id !== id);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorite));
+      setIsFavorite(false);
+    } else {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([favorite]));
+
+      setIsFavorite(true);
+    }
+  };
+
+  const handleShare = () => {
+    setCopiado(true);
+    const url = window.location.href.replace('/in-progress', '');
+    navigator.clipboard.writeText(url);
+  };
+
   return (
     <div>
       <button
         type="button"
         data-testid="share-btn"
         src={ shareImg }
+        onClick={ handleShare }
       >
         <img
           src={ shareImg }
@@ -112,6 +144,7 @@ function RecipesInProgress() {
       <button
         type="button"
         data-testid="favorite-btn"
+        onClick={ handleFavorite }
         src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
       >
         <img
@@ -119,6 +152,8 @@ function RecipesInProgress() {
           alt="whiteHeartIcon"
         />
       </button>
+
+      {copiado && <span>Link copied!</span>}
 
       {recipe.length > 0 && recipe.map((item, index) => (
         <div key={ index }>
