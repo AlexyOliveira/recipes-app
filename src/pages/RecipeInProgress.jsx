@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { getMealById, getDrinkById } from '../services/api';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import shareImg from '../images/shareIcon.svg';
 
 function RecipesInProgress() {
   const location = useLocation();
@@ -164,29 +161,37 @@ function RecipesInProgress() {
 
   return (
     <div>
-      <button
-        type="button"
+      <div
         data-testid="share-btn"
-        src={ shareImg }
         onClick={ handleShare }
+        onKeyDown={ (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            handleShare();
+          }
+        } }
+        tabIndex={ 0 }
+        role="button"
       >
-        <img
-          src={ shareImg }
-          alt="share"
-        />
-      </button>
+        <i className="fa-solid fa-share-from-square shareButton" />
+      </div>
 
-      <button
-        type="button"
-        data-testid="favorite-btn"
+      <div
         onClick={ handleFavorite }
-        src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+        data-testid="favorite-btn"
+        onKeyDown={ (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            handleFavorite();
+          }
+        } }
+        tabIndex={ 0 }
+        role="button"
       >
-        <img
-          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-          alt="whiteHeartIcon"
-        />
-      </button>
+        {isFavorite ? (
+          <i className="fa-solid fa-heart solidHeart" />
+        ) : (
+          <i className="fa-regular fa-heart enptyHeart" />
+        )}
+      </div>
 
       {copiado && <span>Link copied!</span>}
 

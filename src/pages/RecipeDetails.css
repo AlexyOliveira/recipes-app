@@ -98,7 +98,7 @@
 
 .shareLike {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   left: 150px;
   position: absolute;
   top: 20px;
@@ -107,15 +107,6 @@
 
 .recipeImg {
   filter: brightness(0.5);
-}
-
-.haaaa {
-  margin-bottom: 20px;
-}
-
-.svgImg {
-  width: 50px;
-
 }
 
 .favorite {
@@ -138,4 +129,18 @@
   text-align: center;
   text-transform: uppercase;
   top: 50%;
+}
+
+.solidHeart {
+  color: red;
+  font-size: 30px;
+}
+
+.enptyHeart {
+  font-size: 30px;
+}
+
+.shareButton {
+  color: #cb950d;
+  font-size: 30px;
 }

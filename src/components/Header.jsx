@@ -23,8 +23,7 @@ class Header extends Component {
 
   handleProfileSubmit = () => {
     const { history } = this.props;
-    history.push('/profile');
-    console.log(history);
+    history?.push('/profile');
   };
 
   handleSearchSubmit = () => {

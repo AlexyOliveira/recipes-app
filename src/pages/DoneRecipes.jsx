@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { pageTitle } from '../redux/actions';
 import Header from '../components/Header';
 
@@ -8,6 +8,7 @@ import shareIcon from '../images/shareIcon.svg';
 
 function DoneRecipes() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(pageTitle('Done Recipes'));
@@ -59,8 +60,7 @@ function DoneRecipes() {
 
   return (
     <>
-      {console.log(dones)}
-      <Header />
+      <Header history={ history } />
       <div>
         <div>
           <button

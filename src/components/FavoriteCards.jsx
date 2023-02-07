@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 function FavoriteCards() {
   const [favorites, setFavorites] = useState([]);
   const [isFavorite, setIsFavorite] = useState(true);
   const [copiado, setCopiado] = useState(false);
-
+  console.log(isFavorite);
   useEffect(() => {
     const favoriteRecipes = localStorage.getItem('favoriteRecipes');
     if (favoriteRecipes) {
@@ -45,7 +42,9 @@ function FavoriteCards() {
     const favoriteRecipes = localStorage.getItem('favoriteRecipes');
     if (favoriteRecipes) {
       const favoritesJson = JSON.parse(favoriteRecipes);
-      const favoriteMeals = favoritesJson.filter((favorite) => favorite.type === 'meal');
+      const favoriteMeals = favoritesJson.filter(
+        (favorite) => favorite.type === 'meal',
+      );
       setFavorites(favoriteMeals);
     }
   };
@@ -54,7 +53,9 @@ function FavoriteCards() {
     const favoriteRecipes = localStorage.getItem('favoriteRecipes');
     if (favoriteRecipes) {
       const favoritesJson = JSON.parse(favoriteRecipes);
-      const favoriteMeals = favoritesJson.filter((favorite) => favorite.type === 'drink');
+      const favoriteMeals = favoritesJson.filter(
+        (favorite) => favorite.type === 'drink',
+      );
       setFavorites(favoriteMeals);
     }
   };
@@ -64,10 +65,18 @@ function FavoriteCards() {
       <button onClick={ handleAll } data-testid="filter-by-all-btn" type="button">
         All
       </button>
-      <button onClick={ handleMeals } data-testid="filter-by-meal-btn" type="button">
+      <button
+        onClick={ handleMeals }
+        data-testid="filter-by-meal-btn"
+        type="button"
+      >
         Meals
       </button>
-      <button onClick={ handleDrinks } data-testid="filter-by-drink-btn" type="button">
+      <button
+        onClick={ handleDrinks }
+        data-testid="filter-by-drink-btn"
+        type="button"
+      >
         Drinks
       </button>
       {favorites.map((card, index) => (
@@ -82,13 +91,11 @@ function FavoriteCards() {
               alt={ card.img }
             />
           </Link>
-
           <h2 data-testid={ `${index}-horizontal-top-text` }>
             {card.type === 'drink'
               ? card.category
               : `${card.nationality} - ${card.category}`}
           </h2>
-
           {card.type === 'drink' && (
             <p data-testid={ `${index}-horizontal-top-text` }>
               {card.alcoholicOrNot}
@@ -97,24 +104,33 @@ function FavoriteCards() {
           <Link to={ `/${card.type}s/${card.id}` }>
             <p data-testid={ `${index}-horizontal-name` }>{card.name}</p>
           </Link>
-
-          <button
+          <div
             onClick={ () => clipBoardCopyUrl(card.id, card.type) }
-            src={ shareIcon }
             data-testid={ `${index}-horizontal-share-btn` }
-            type="button"
+            onKeyDown={ (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                clipBoardCopyUrl();
+              }
+            } }
+            tabIndex={ 0 }
+            role="button"
           >
-            <img src={ shareIcon } alt="" />
-          </button>
+            <i className="fa-solid fa-share-from-square shareButton" />
+          </div>
           {copiado && <p>Link copied!</p>}
-          <button
+          <div
             onClick={ () => unFavorite(card.id) }
-            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
             data-testid={ `${index}-horizontal-favorite-btn` }
-            type="button"
+            onKeyDown={ (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                unFavorite();
+              }
+            } }
+            tabIndex={ 0 }
+            role="button"
           >
-            <img src={ isFavorite ? blackHeartIcon : whiteHeartIcon } alt="" />
-          </button>
+            <i className="fa-solid fa-heart solidHeart" />
+          </div>
         </div>
       ))}
     </div>

@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { getMealById, getDrinkById, getAllMeals, getAllDrinks } from '../services/api';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import './RecipeDetails.css';
-import shaereIcon from '../images/shareIcon.svg';
 
 function RecipeDetails() {
   const location = useLocation();
@@ -126,25 +123,40 @@ function RecipeDetails() {
             <h3 data-testid="recipe-category">{item.strCategory}</h3>
             <h3 data-testid="recipe-category">{item.strAlcoholic}</h3>
             <div className="shareLike">
-              {/* <button type="button"  >
-                Share Recipe
-              </button> */}
-              <input
+
+              <div
                 className="svgImg"
-                type="image"
-                src={ shaereIcon }
                 onClick={ copiarClipBoard }
                 data-testid="share-btn"
-                alt="shareIcon"
-              />
-              <input
-                className="favorite"
-                alt="favorite"
-                type="image"
-                data-testid="favorite-btn"
+                onKeyDown={ (e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    copiarClipBoard();
+                  }
+                } }
+                tabIndex={ 0 }
+                role="button"
+              >
+                <i className="fa-solid fa-share-from-square shareButton" />
+              </div>
+
+              <div
                 onClick={ saveFavorite }
-                src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-              />
+                onKeyDown={ (e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    saveFavorite();
+                  }
+                } }
+                tabIndex={ 0 }
+                role="button"
+
+              >
+                {isFavorite ? (
+                  <i className="fa-solid fa-heart solidHeart" />
+                ) : (
+                  <i className="fa-regular fa-heart enptyHeart" />
+                )}
+              </div>
+
             </div>
           </div>
           <h3 className="ingre">Ingredients</h3>
@@ -218,7 +230,6 @@ function RecipeDetails() {
           data-testid="start-recipe-btn"
           className="start-recipe-btn"
           onClick={ startRecipeStorage }
-
         >
           {startedRecipe ? 'Continue Recipe' : 'Start Recipe'}
         </button>

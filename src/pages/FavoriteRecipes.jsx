@@ -13,9 +13,10 @@ class FavoriteRecipes extends Component {
   }
 
   render() {
+    const { history } = this.props;
     return (
       <>
-        <Header />
+        <Header history={ history } />
         <div>
           <FavoriteCards />
         </div>
@@ -27,9 +28,9 @@ class FavoriteRecipes extends Component {
 
 FavoriteRecipes.propTypes = {
   dispatch: PropTypes.func.isRequired,
-//   history: PropTypes.shape({
-//     push: PropTypes.func,
-//   }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default connect()(FavoriteRecipes);
