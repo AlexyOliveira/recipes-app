@@ -12,12 +12,14 @@
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-evenly;
+  padding: 10px;
   width: 105px;
 }
 
 .headerContainer img {
   margin-left: 10px;
-  width: 50%;
+  margin-top: 5px;
+  width: 60%;
 }
 
 .searchInput {
@@ -53,4 +55,8 @@
 
 .profileIcon {
   margin-left: 20px;
+}
+
+.favHeart {
+  width: 70px;
 }

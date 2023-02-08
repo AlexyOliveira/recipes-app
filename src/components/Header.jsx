@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import profile from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
+import favHeart from '../images/yellowHeart.png';
 import { searchValue, globalStateHistory } from '../redux/actions';
 import './header.css';
 import recipesApp from '../images/recipesApp.png';
@@ -76,7 +77,12 @@ class Header extends Component {
               if (
                 title === 'Drinks'
               ) return <i className="fa-solid fa-martini-glass-citrus icon" />;
-              if (title === 'Meals') return <i className="fa-solid fa-utensils icon" />;
+              if (
+                title === 'Meals'
+              ) return <i className="fa-solid fa-utensils icon" />;
+              if (
+                title === 'Favorites'
+              ) { return <img className="favHeart" src={ favHeart } alt="" />; }
               return null;
             })()
           }

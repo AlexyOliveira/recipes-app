@@ -4,23 +4,24 @@ import { connect } from 'react-redux';
 import { pageTitle } from '../redux/actions';
 import FavoriteCards from '../components/FavoriteCards';
 import Header from '../components/Header';
+import './favoriteRecipes.css';
 
 class FavoriteRecipes extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
 
-    dispatch(pageTitle('Favorite Recipes'));
+    dispatch(pageTitle('Favorites'));
   }
 
   render() {
     const { history } = this.props;
     return (
-      <>
+      <div className="favContainer">
         <Header history={ history } />
-        <div>
+        <div className="cardsContainer">
           <FavoriteCards />
         </div>
-      </>
+      </div>
 
     );
   }

@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Recipes from '../components/Recipes';
-import { drinkResults, pageTitle } from '../redux/actions';
+import { drinkResults, isLoading, pageTitle } from '../redux/actions';
 import { getDrinkName, getDrinksbyFilter } from '../services/drinksAPI';
 import { getDrinkCategories } from '../services/api';
 import cocoa from '../images/cocoa.png';
 import other from '../images/other.png';
 import shake from '../images/shake.png';
+import loadingGif from '../images/lo.gif';
 import cocktail from '../images/cocktail.png';
 import ordinaryDrink from '../images/ordinaryDrink.png';
 import allDrink from '../images/allDrink.png';
@@ -24,7 +25,9 @@ class Drinks extends Component {
   async componentDidMount() {
     const { dispatch } = this.props;
     dispatch(pageTitle('Drinks'));
+    dispatch(isLoading(true));
     const drinksReturn = await getDrinkName('');
+    dispatch(isLoading(false));
     this.handleResultDrinks(drinksReturn.drinks);
     this.drinkCategories();
   }
@@ -88,51 +91,58 @@ class Drinks extends Component {
   };
 
   render() {
-    const { history, drinks } = this.props;
+    const { history, drinks, loading } = this.props;
     const { drinkCategories } = this.state;
     return (
       <div className="mealsContainer">
         <Header history={ history } />
-        <div className="categories">
-          <label htmlFor="allId">
-            <input
-              id="allId"
-              className="categorie"
-              type="image"
-              onClick={ this.handleAll }
-              data-testid="All-category-filter"
-              alt="all"
-              src={ allDrink }
-            />
-            All
-          </label>
-          {drinkCategories.map((categorie, index) => (
-            <label key={ index } htmlFor="id">
-              <input
-                id="id"
-                className="categorie"
-                data-testid={ `${categorie.strCategory}-category-filter` }
-                type="image"
-                src={ (() => {
-                  if (categorie.strCategory === 'Ordinary Drink') {
-                    return ordinaryDrink;
-                  }
-                  if (categorie.strCategory === 'Cocktail') return cocktail;
-                  if (categorie.strCategory === 'Shake') return shake;
-                  if (categorie.strCategory === 'Other / Unknown') return other;
-                  if (categorie.strCategory === 'Cocoa') return cocoa;
-                  return null;
-                })() }
-                key={ index }
-                name={ categorie.strCategory }
-                alt={ categorie.strCategory }
-                onClick={ this.handleCategorieClick }
-              />
-              {categorie.strCategory}
-            </label>
-          ))}
-        </div>
-        <Recipes value={ drinks } />
+        {
+          loading ? <img className="loading" src={ loadingGif } alt="loading" /> : (
+            <div>
+              <div className="categories">
+                <label htmlFor="allId">
+                  <input
+                    id="allId"
+                    className="categorie"
+                    type="image"
+                    onClick={ this.handleAll }
+                    data-testid="All-category-filter"
+                    alt="all"
+                    src={ allDrink }
+                  />
+                  All
+                </label>
+                {drinkCategories.map((categorie, index) => (
+                  <label key={ index } htmlFor="id">
+                    <input
+                      id="id"
+                      className="categorie"
+                      data-testid={ `${categorie.strCategory}-category-filter` }
+                      type="image"
+                      src={ (() => {
+                        if (categorie.strCategory === 'Ordinary Drink') {
+                          return ordinaryDrink;
+                        }
+                        if (categorie.strCategory === 'Cocktail') return cocktail;
+                        if (categorie.strCategory === 'Shake') return shake;
+                        if (categorie.strCategory === 'Other / Unknown') return other;
+                        if (categorie.strCategory === 'Cocoa') return cocoa;
+                        return null;
+                      })() }
+                      key={ index }
+                      name={ categorie.strCategory }
+                      alt={ categorie.strCategory }
+                      onClick={ this.handleCategorieClick }
+                    />
+                    {categorie.strCategory}
+                  </label>
+                ))}
+              </div>
+              <Recipes value={ drinks } />
+            </div>
+          )
+        }
+
         <Footer />
       </div>
     );
@@ -152,6 +162,7 @@ Drinks.propTypes = {
 const mapStateToProps = (globalState) => ({
   drinks: globalState.drinkResultsReducer.drinks,
   // history: globalState.setHistoryReducer.history,
+  loading: globalState.loadingReducer.loading,
 });
 
 export default connect(mapStateToProps)(Drinks);

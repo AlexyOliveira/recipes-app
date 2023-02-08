@@ -93,11 +93,11 @@ class Meals extends Component {
     const { history, meals, loading } = this.props;
     const { mealsCategories } = this.state;
     return (
-      <div>
+      <div className="mealsContainer">
         <Header history={ history } />
         {
-          loading ? <img className="loading" src={ loadingGif } alt="" /> : (
-            <div className="mealsContainer">
+          loading ? <img className="loading" src={ loadingGif } alt="loading" /> : (
+            <div>
               <div className="categories">
                 <label htmlFor="allId">
                   <input
