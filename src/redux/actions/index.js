@@ -3,6 +3,7 @@ export const SEARCH_VALUE = 'SEARCH_VALUE';
 export const DRINK_RESULTS = 'DRINK_RESULTS';
 export const MEAL_RESULTS = 'MEAL_RESULTS';
 export const GLOBAL_HISTORY = 'GLOBAL_HISTORY';
+export const LOADING = 'LOADING';
 
 export const pageTitle = (title) => ({
   type: PAGE_TITLE,
@@ -27,4 +28,9 @@ export const mealResults = (meals) => ({
 export const globalStateHistory = (history) => ({
   type: GLOBAL_HISTORY,
   history,
+});
+
+export const isLoading = (loading) => ({
+  type: LOADING,
+  loading,
 });

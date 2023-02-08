@@ -56,7 +56,6 @@ function RecipesInProgress() {
       const getNewStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
       const storageId = getNewStorage[typeLocation][id];
 
-      // check the checkbox
       const checkbox = document.querySelectorAll('input[type="checkbox"]');
 
       checkbox.forEach((item) => {
@@ -67,7 +66,6 @@ function RecipesInProgress() {
       });
     }
   }, [recipe, id, typeLocation]);
-
   const riscaCheckboxes = ({ target }) => {
     const getStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
 
@@ -124,7 +122,6 @@ function RecipesInProgress() {
     const url = window.location.href.replace('/in-progress', '');
     navigator.clipboard.writeText(url);
   };
-
   useEffect(() => {
     const checkbox = document.querySelectorAll('input[type="checkbox"]');
     const array = [...checkbox];
@@ -136,7 +133,6 @@ function RecipesInProgress() {
       setIsDisabled(true);
     }
   }, [isDisabled, storage]);
-
   const doneRecipe = () => {
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     const { strMeal, strDrink, strCategory, strArea,
@@ -158,7 +154,6 @@ function RecipesInProgress() {
       localStorage.setItem('doneRecipes', JSON.stringify([...doneRecipes, done]));
     }
   };
-
   return (
     <div>
       <div
