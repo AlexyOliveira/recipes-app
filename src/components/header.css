@@ -34,13 +34,11 @@
 .titles {
   color: #41197f;
   font-size: 20px;
-  font-style: normal;
   font-weight: 900;
   letter-spacing: 0.105em;
   margin: 20px;
   text-align: center;
   text-transform: uppercase;
-
 }
 
 .titles img {
@@ -59,4 +57,12 @@
 
 .favHeart {
   width: 70px;
+}
+
+.done {
+  width: 50px;
+}
+
+.profileYellow {
+  width: 60px;
 }

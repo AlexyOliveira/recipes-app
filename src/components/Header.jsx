@@ -7,6 +7,8 @@ import profile from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 import favHeart from '../images/yellowHeart.png';
+import done from '../images/done.png';
+import profileYellow from '../images/p.png';
 import { searchValue, globalStateHistory } from '../redux/actions';
 import './header.css';
 import recipesApp from '../images/recipesApp.png';
@@ -83,6 +85,12 @@ class Header extends Component {
               if (
                 title === 'Favorites'
               ) { return <img className="favHeart" src={ favHeart } alt="" />; }
+              if (
+                title === 'Done Recipes'
+              ) { return <img className="done" src={ done } alt="" />; }
+              if (
+                title === 'Profile'
+              ) { return <img className="profileYellow" src={ profileYellow } alt="" />; }
               return null;
             })()
           }

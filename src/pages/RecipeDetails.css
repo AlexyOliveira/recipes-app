@@ -106,7 +106,7 @@
 }
 
 .recipeImg {
-  filter: brightness(0.5);
+  filter: brightness(0.8);
 }
 
 .favorite {
@@ -119,16 +119,14 @@
 
 .recipeName {
   color: white;
-  font-size: 40px;
-  font-style: normal;
-  font-weight: 900;
-  left: 3%;
-  letter-spacing: 0.105em;
-  line-height: 40px;
+  font-size: 30px;
+  font-weight: 800;
+  left: 50%;
   position: absolute;
-  text-align: center;
+  text-shadow: 5px 5px 5px black;
   text-transform: uppercase;
   top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .solidHeart {
@@ -137,10 +135,13 @@
 }
 
 .enptyHeart {
+  color: purple;
   font-size: 30px;
+  text-shadow: 4px 4px 4px white;
 }
 
 .shareButton {
-  color: #cb950d;
+  color: purple;
   font-size: 30px;
+  text-shadow: 4px 4px 4px white;
 }

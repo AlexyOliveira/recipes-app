@@ -120,10 +120,11 @@ function RecipeDetails() {
             <h2 className="recipeName" data-testid="recipe-title">
               {item.strMeal || item.strDrink}
             </h2>
-            <h3 data-testid="recipe-category">{item.strCategory}</h3>
+            <h3 style={ { margin: '10px' } } data-testid="recipe-category">
+              {item.strCategory}
+            </h3>
             <h3 data-testid="recipe-category">{item.strAlcoholic}</h3>
             <div className="shareLike">
-
               <div
                 className="svgImg"
                 onClick={ copiarClipBoard }
@@ -148,7 +149,6 @@ function RecipeDetails() {
                 } }
                 tabIndex={ 0 }
                 role="button"
-
               >
                 {isFavorite ? (
                   <i className="fa-solid fa-heart solidHeart" />
@@ -156,7 +156,6 @@ function RecipeDetails() {
                   <i className="fa-regular fa-heart enptyHeart" />
                 )}
               </div>
-
             </div>
           </div>
           <h3 className="ingre">Ingredients</h3>
