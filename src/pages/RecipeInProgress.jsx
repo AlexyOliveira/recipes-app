@@ -163,8 +163,6 @@ function RecipesInProgress() {
   };
   return (
     <div className="recipeDetailsContainer">
-      {copiado && <span className="copied">Link copied!</span>}
-
       {recipe.length > 0
         && recipe.map((item, index) => (
           <div key={ index }>
@@ -193,6 +191,7 @@ function RecipesInProgress() {
                   role="button"
                 >
                   <i className="fa-solid fa-share-from-square shareButton" />
+                  {copiado && <span className="copied">Link copied!</span>}
                 </div>
 
                 <div

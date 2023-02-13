@@ -53,8 +53,11 @@ class Meals extends Component {
   };
 
   handleCategorieClick = async ({ target }) => {
+    const { dispatch } = this.props;
     const { isCategorieCliked } = this.state;
+    dispatch(isLoading(true));
     const filterReturn = await getMealsbyFilter(target.name);
+    dispatch(isLoading(false));
     this.handleResultMeals(filterReturn);
     this.setState({
       isCategorieCliked: target.name,
@@ -69,7 +72,10 @@ class Meals extends Component {
   };
 
   handleAll = async () => {
+    const { dispatch } = this.props;
+    dispatch(isLoading(true));
     const mealsReturn = await getName('');
+    dispatch(isLoading(false));
     this.handleResultMeals(mealsReturn.meals);
     this.setState({
       isCategorieCliked: '',

@@ -69,6 +69,7 @@ function FavoriteCards() {
   return (
     <div>
       <div className="favCategories">
+        {copiado && <p className="done-copied">Link copied!</p>}
         <label htmlFor="allId">
           <input
             id="allId"
@@ -107,69 +108,68 @@ function FavoriteCards() {
           <p>Drinks</p>
         </label>
       </div>
-
-      {favorites.map((card, index) => (
-        <div key={ index } className="favCard">
-          {' '}
-          <Link id="imagem" to={ `/${card.type}s/${card.id}` }>
-            <div className="cardImg">
-              <img
-                id="img"
-                data-testid={ `${index}-horizontal-image` }
-                src={ card.image }
-                alt={ card.img }
-              />
-            </div>
-          </Link>
-          <div className="favInfo">
-            <h2 data-testid={ `${index}-horizontal-top-text` }>
-              {card.type === 'drink'
-                ? card.category
-                : `${card.nationality} - ${card.category}`}
-            </h2>
-            <div>
-              {card.type === 'drink' && (
-                <p data-testid={ `${index}-horizontal-top-text` }>
-                  {card.alcoholicOrNot}
-                </p>
-              )}
-              <Link className="favLink" to={ `/${card.type}s/${card.id}` }>
-                <p data-testid={ `${index}-horizontal-name` }>{card.name}</p>
-              </Link>
-            </div>
-            <div className="shareAndLike">
-              <div
-                onClick={ () => clipBoardCopyUrl(card.id, card.type) }
-                data-testid={ `${index}-horizontal-share-btn` }
-                onKeyDown={ (e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    clipBoardCopyUrl();
-                  }
-                } }
-                tabIndex={ 0 }
-                role="button"
-              >
-                <i className="fa-solid fa-share-from-square shareButton" />
+      <div className="fav-card-container">
+        {favorites.map((card, index) => (
+          <div key={ index } className="favCard">
+            {' '}
+            <Link id="imagem" to={ `/${card.type}s/${card.id}` }>
+              <div className="cardImg">
+                <img
+                  id="img"
+                  data-testid={ `${index}-horizontal-image` }
+                  src={ card.image }
+                  alt={ card.img }
+                />
               </div>
-              {copiado && <p className="copied">Link copied!</p>}
-              <div
-                onClick={ () => unFavorite(card.id) }
-                data-testid={ `${index}-horizontal-favorite-btn` }
-                onKeyDown={ (e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    unFavorite();
-                  }
-                } }
-                tabIndex={ 0 }
-                role="button"
-              >
-                <i className="fa-solid fa-heart solidHeart" />
+            </Link>
+            <div className="favInfo">
+              <h2 data-testid={ `${index}-horizontal-top-text` }>
+                {card.type === 'drink'
+                  ? card.category
+                  : `${card.nationality} - ${card.category}`}
+              </h2>
+              <div>
+                {card.type === 'drink' && (
+                  <p data-testid={ `${index}-horizontal-top-text` }>
+                    {card.alcoholicOrNot}
+                  </p>
+                )}
+                <Link className="favLink" to={ `/${card.type}s/${card.id}` }>
+                  <p data-testid={ `${index}-horizontal-name` }>{card.name}</p>
+                </Link>
+              </div>
+              <div className="shareAndLike">
+                <div
+                  onClick={ () => clipBoardCopyUrl(card.id, card.type) }
+                  data-testid={ `${index}-horizontal-share-btn` }
+                  onKeyDown={ (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      clipBoardCopyUrl();
+                    }
+                  } }
+                  tabIndex={ 0 }
+                  role="button"
+                >
+                  <i className="fa-solid fa-share-from-square shareButton" />
+                </div>
+                <div
+                  onClick={ () => unFavorite(card.id) }
+                  data-testid={ `${index}-horizontal-favorite-btn` }
+                  onKeyDown={ (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      unFavorite();
+                    }
+                  } }
+                  tabIndex={ 0 }
+                  role="button"
+                >
+                  <i className="fa-solid fa-heart solidHeart" />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
-
+        ))}
+      </div>
     </div>
   );
 }

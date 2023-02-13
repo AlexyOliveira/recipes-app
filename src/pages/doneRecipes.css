@@ -90,3 +90,13 @@
   }
 
 }
+
+.done-copied {
+  background-color: #41197f;
+  border-radius: 5px;
+  bottom: 0;
+  color: white;
+  position: fixed;
+  text-align: center;
+  width: 80%;
+}

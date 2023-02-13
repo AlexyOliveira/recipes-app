@@ -110,7 +110,6 @@ function RecipeDetails() {
   };
   return (
     <div className="recipeDetailsContainer">
-      {copiado && <p className="copied">Link copied!</p>}
       {recipe.map((item, index) => (
         <div key={ index }>
           <div className="card mb-3">
@@ -141,6 +140,7 @@ function RecipeDetails() {
                 role="button"
               >
                 <i className="fa-solid fa-share-from-square shareButton" />
+                {copiado && <p className="copied">Link copied!</p>}
               </div>
 
               <div

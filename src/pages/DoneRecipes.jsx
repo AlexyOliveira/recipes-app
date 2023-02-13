@@ -9,7 +9,7 @@ import aall from '../images/aall.png';
 import './doneRecipes.css';
 import shareIcon from '../images/shareIcon.svg';
 
-const fiveSeconds = 5000;
+const fiveSeconds = 3000;
 
 function DoneRecipes() {
   const dispatch = useDispatch();
@@ -72,6 +72,7 @@ function DoneRecipes() {
     <div style={ { background: 'whitesmoke' } }>
       <Header history={ history } />
       <div className="doneContainer">
+        {copiado && <p className="done-copied">Link copied!</p>}
         <div className="done-categories">
           <label htmlFor="allId">
             <input
@@ -166,7 +167,6 @@ function DoneRecipes() {
               >
                 <img src={ shareIcon } alt="" />
               </button>
-              {copiado && <p className="copied">Link copied!</p>}
             </div>
           ))}
         </div>

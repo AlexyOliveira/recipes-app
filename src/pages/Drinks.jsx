@@ -54,8 +54,11 @@ class Drinks extends Component {
   };
 
   handleCategorieClick = async ({ target }) => {
+    const { dispatch } = this.props;
     const { isCategorieCliked } = this.state;
+    dispatch(isLoading(true));
     const filterReturn = await getDrinksbyFilter(target.name);
+    dispatch(isLoading(false));
     this.handleResultDrinks(filterReturn);
     this.setState({
       isCategorieCliked: target.name,
@@ -70,7 +73,10 @@ class Drinks extends Component {
   };
 
   handleAll = async () => {
+    const { dispatch } = this.props;
+    dispatch(isLoading(true));
     const drinksReturn = await getDrinkName('');
+    dispatch(isLoading(false));
     this.handleResultDrinks(drinksReturn.drinks);
     this.setState({
       isCategorieCliked: '',
