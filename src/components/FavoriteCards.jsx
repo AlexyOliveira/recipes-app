@@ -5,6 +5,7 @@ import allDrink from '../images/allDrink.png';
 import aall from '../images/aall.png';
 import './favoriteCards.css';
 
+const fiveSeconds = 5000;
 function FavoriteCards() {
   const [favorites, setFavorites] = useState([]);
   const [isFavorite, setIsFavorite] = useState(true);
@@ -17,13 +18,14 @@ function FavoriteCards() {
     }
   }, []);
 
-  const clipBoardCopyUrl = (id, cardType) => {
+  const clipBoardCopyUrl = (id, type) => {
     setCopiado(true);
-    const url = window.location.href;
-    const urlSplit = url.split('/');
-    const urlWithId = `${urlSplit[0]}//${urlSplit[2]}/${cardType}s/${id}`;
-
-    navigator.clipboard.writeText(urlWithId);
+    setTimeout(() => {
+      setCopiado(false);
+    }, fiveSeconds);
+    const url = window.location.href.replace('/favorite-recipes', '');
+    navigator.clipboard.writeText(`${url}/${type}s/${id}`);
+    console.log(type);
   };
 
   const unFavorite = (id) => {
@@ -135,21 +137,21 @@ function FavoriteCards() {
                 <p data-testid={ `${index}-horizontal-name` }>{card.name}</p>
               </Link>
             </div>
-            <div
-              className="shareAndLike"
-              onClick={ () => clipBoardCopyUrl(card.id, card.type) }
-              data-testid={ `${index}-horizontal-share-btn` }
-              onKeyDown={ (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  clipBoardCopyUrl();
-                }
-              } }
-              tabIndex={ 0 }
-              role="button"
-            >
-              <i className="fa-solid fa-share-from-square shareButton" />
-
-              {copiado && <p>Link copied!</p>}
+            <div className="shareAndLike">
+              <div
+                onClick={ () => clipBoardCopyUrl(card.id, card.type) }
+                data-testid={ `${index}-horizontal-share-btn` }
+                onKeyDown={ (e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    clipBoardCopyUrl();
+                  }
+                } }
+                tabIndex={ 0 }
+                role="button"
+              >
+                <i className="fa-solid fa-share-from-square shareButton" />
+              </div>
+              {copiado && <p className="copied">Link copied!</p>}
               <div
                 onClick={ () => unFavorite(card.id) }
                 data-testid={ `${index}-horizontal-favorite-btn` }

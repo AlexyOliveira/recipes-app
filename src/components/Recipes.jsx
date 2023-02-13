@@ -15,6 +15,7 @@ class Recipes extends Component {
 
   render() {
     const { value } = this.props;
+    console.log(value);
     if (!value || !value.length) return null;
 
     const keys = Object.keys(value[0]);

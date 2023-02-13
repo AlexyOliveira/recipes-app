@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { getMealById, getDrinkById } from '../services/api';
+import './meals.css';
+
+const magicNumber = -11;
+const fiveSeconds = 5000;
 
 function RecipesInProgress() {
   const location = useLocation();
@@ -119,13 +123,16 @@ function RecipesInProgress() {
 
   const handleShare = () => {
     setCopiado(true);
+    setTimeout(() => {
+      setCopiado(false);
+    }, fiveSeconds);
     const url = window.location.href.replace('/in-progress', '');
     navigator.clipboard.writeText(url);
+    console.log(url);
   };
   useEffect(() => {
     const checkbox = document.querySelectorAll('input[type="checkbox"]');
     const array = [...checkbox];
-    console.log(array);
     const check = array.every((item) => item.checked);
     if (check) {
       setIsDisabled(false);
@@ -155,94 +162,129 @@ function RecipesInProgress() {
     }
   };
   return (
-    <div>
-      <div
-        data-testid="share-btn"
-        onClick={ handleShare }
-        onKeyDown={ (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            handleShare();
-          }
-        } }
-        tabIndex={ 0 }
-        role="button"
-      >
-        <i className="fa-solid fa-share-from-square shareButton" />
-      </div>
+    <div className="recipeDetailsContainer bg-white">
+      {copiado && <span className="copied">Link copied!</span>}
 
-      <div
-        onClick={ handleFavorite }
-        data-testid="favorite-btn"
-        onKeyDown={ (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            handleFavorite();
-          }
-        } }
-        tabIndex={ 0 }
-        role="button"
-      >
-        {isFavorite ? (
-          <i className="fa-solid fa-heart solidHeart" />
-        ) : (
-          <i className="fa-regular fa-heart enptyHeart" />
-        )}
-      </div>
+      {recipe.length > 0
+        && recipe.map((item, index) => (
+          <div key={ index }>
+            <div className="card mb-3">
+              <img
+                className="recipeImg"
+                data-testid="recipe-photo"
+                src={ item.strMealThumb || item.strDrinkThumb }
+                alt="recipe"
+              />
+              <h1 className="recipeName" data-testid="recipe-title">
+                {item.strMeal || item.strDrink}
+              </h1>
+              <h2 data-testid="recipe-category">{item.strCategory}</h2>
+              <h2 data-testid="recipe-category">{item.strAlcoholic}</h2>
+              <div className="shareLike">
+                <div
+                  data-testid="share-btn"
+                  onClick={ handleShare }
+                  onKeyDown={ (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      handleShare();
+                    }
+                  } }
+                  tabIndex={ 0 }
+                  role="button"
+                >
+                  <i className="fa-solid fa-share-from-square shareButton" />
+                </div>
 
-      {copiado && <span>Link copied!</span>}
+                <div
+                  onClick={ handleFavorite }
+                  data-testid="favorite-btn"
+                  onKeyDown={ (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      handleFavorite();
+                    }
+                  } }
+                  tabIndex={ 0 }
+                  role="button"
+                >
+                  {isFavorite ? (
+                    <i className="fa-solid fa-heart solidHeart" />
+                  ) : (
+                    <i className="fa-regular fa-heart enptyHeart" />
+                  )}
+                </div>
+              </div>
+            </div>
+            <h3>Ingredients</h3>
+            <div className="ingredients m-2 mb-4">
+              <ul className="ingredient-checkbox">
+                {Object.keys(item)
+                  .reduce((acc, key) => {
+                    if (
+                      key.includes('Ingredient')
+                    && item[key] !== ''
+                    && item[key] !== null
+                    ) {
+                      return [...acc, item[key]];
+                    }
+                    return acc;
+                  }, [])
+                  .map((ingredient, i) => (
+                    <li key={ i }>
 
-      {recipe.length > 0 && recipe.map((item, index) => (
-        <div key={ index }>
-          <img
-            data-testid="recipe-photo"
-            src={ item.strMealThumb || item.strDrinkThumb }
-            alt="recipe"
-          />
-          <h1 data-testid="recipe-title">{item.strMeal || item.strDrink}</h1>
-          <h2 data-testid="recipe-category">{item.strCategory}</h2>
-          <h2 data-testid="recipe-category">{item.strAlcoholic}</h2>
-          <h3>Ingredients</h3>
-          <ul>
-            {Object.keys(item)
-              .reduce((acc, key) => {
-                if (key.includes('Ingredient')
-                  && item[key] !== '' && item[key] !== null) {
-                  return [...acc, item[key]];
-                }
-                return acc;
-              }, [])
-              .map((ingredient, i) => (
-                <li key={ i }>
-                  <label
-                    htmlFor={ ingredient }
-                    data-testid={ `${i}-ingredient-step` }
-                    style={ storage.length > 0 && storage.includes(ingredient)
-                      ? { textDecoration: stylito }
-                      : { textDecoration: 'none' } }
-                  >
-                    <input
-                      type="checkbox"
-                      onClick={ riscaCheckboxes }
-                      id={ ingredient }
-                    />
-                    {ingredient}
-                  </label>
-                </li>
-              ))}
-          </ul>
-          <h3>Instructions</h3>
-          <p data-testid="instructions">{item.strInstructions}</p>
-          <Link to="/done-recipes">
-            <button
-              type="button"
-              data-testid="finish-recipe-btn"
-              disabled={ isDisabled }
-              onClick={ doneRecipe }
-            >
-              Finish Recipe
-            </button>
-          </Link>
-        </div>
-      ))}
+                      <label
+                        htmlFor={ ingredient }
+                        data-testid={ `${i}-ingredient-step` }
+                        style={
+                          storage.length > 0 && storage.includes(ingredient)
+                            ? { textDecoration: stylito }
+                            : { textDecoration: 'none' }
+                        }
+                      >
+                        <input
+                          className="check"
+                          type="checkbox"
+                          onClick={ riscaCheckboxes }
+                          id={ ingredient }
+                        />
+                        {ingredient}
+                      </label>
+                    </li>
+                  ))}
+              </ul>
+
+              <h3>Instructions</h3>
+              <div className="instructions">
+                <p data-testid="instructions">{item.strInstructions}</p>
+              </div>
+              {/* use replace in the video to work */}
+              {item.strYoutube && (
+                <>
+                  <h3>Video</h3>
+                  <iframe
+                    data-testid="video"
+                    title="recipe"
+                    width="360"
+                    height="315"
+                    src={ `https://www.youtube.com/embed/${item.strYoutube.slice(
+                      magicNumber,
+                    )}` }
+                  />
+                </>
+              )}
+            </div>
+            <Link to="/done-recipes">
+              <button
+                className="start-recipe-btn"
+                type="button"
+                data-testid="finish-recipe-btn"
+                disabled={ isDisabled }
+                onClick={ doneRecipe }
+              >
+                Finish Recipe
+              </button>
+            </Link>
+          </div>
+        ))}
     </div>
   );
 }

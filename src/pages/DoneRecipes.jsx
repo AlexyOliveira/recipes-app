@@ -9,6 +9,8 @@ import aall from '../images/aall.png';
 import './doneRecipes.css';
 import shareIcon from '../images/shareIcon.svg';
 
+const fiveSeconds = 5000;
+
 function DoneRecipes() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -27,13 +29,14 @@ function DoneRecipes() {
     }
   }, []);
 
-  const clipBoardCopyUrl = (id, cardType) => {
+  const clipBoardCopyUrl = (id, type) => {
     setCopiado(true);
-    const url = window.location.href;
-    const urlSplit = url.split('/');
-    const urlWithId = `${urlSplit[0]}//${urlSplit[2]}/${cardType}s/${id}`;
-
-    navigator.clipboard.writeText(urlWithId);
+    setTimeout(() => {
+      setCopiado(false);
+    }, fiveSeconds);
+    const url = window.location.href.replace('/done-recipes', '');
+    navigator.clipboard.writeText(`${url}/${type}s/${id}`);
+    console.log(type);
   };
 
   const handleAll = () => {
@@ -159,7 +162,7 @@ function DoneRecipes() {
             >
               <img src={ shareIcon } alt="" />
             </button>
-            {copiado && <p>Link copied!</p>}
+            {copiado && <p className="copied">Link copied!</p>}
 
           </div>
         ))}

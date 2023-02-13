@@ -12,6 +12,7 @@ function RecipeDetails() {
   const [isFavorite, setIsFavorite] = useState(false);
   const magicNumber = -11;
   const magicN = 6;
+  const fiveSeconds = 5000;
   const getStartedRecipe = JSON.parse(localStorage.getItem('inProgressRecipes'));
   const id = location.pathname.split('/')[2];
   const type = location.pathname.split('/')[1];
@@ -62,6 +63,9 @@ function RecipeDetails() {
   }, [getStartedRecipe, location, id, type]);
   const copiarClipBoard = () => {
     setCopiado(true);
+    setTimeout(() => {
+      setCopiado(false);
+    }, fiveSeconds);
     const url = window.location.href;
     navigator.clipboard.writeText(url);
   };
@@ -106,7 +110,7 @@ function RecipeDetails() {
   };
   return (
     <div className="recipeDetailsContainer">
-      {copiado && <p>Link copied!</p>}
+      {copiado && <p className="copied">Link copied!</p>}
       {recipe.map((item, index) => (
         <div key={ index }>
           <div className="card mb-3">
@@ -114,7 +118,6 @@ function RecipeDetails() {
               className="recipeImg"
               src={ item.strMealThumb || item.strDrinkThumb }
               alt={ item.strMeal }
-              // style={ { width: '200px' } }
               data-testid="recipe-photo"
             />
             <h2 className="recipeName" data-testid="recipe-title">

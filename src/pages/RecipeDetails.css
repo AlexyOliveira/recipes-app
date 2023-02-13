@@ -145,3 +145,12 @@
   font-size: 30px;
   text-shadow: 4px 4px 4px white;
 }
+
+.ingredient-checkbox {
+  list-style: none;
+}
+
+.check {
+  background-color: #fcc436;
+  margin-right: 10px;
+}
