@@ -11,7 +11,7 @@ class Footer extends Component {
     const { history } = this.props;
 
     return (
-      <div>
+      <div className="footer-container">
         <footer
           data-testid="footer"
         >

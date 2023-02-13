@@ -1,5 +1,8 @@
 .mealsContainer {
+  align-items: center;
   background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
 }
 
 .categorie {
@@ -10,6 +13,7 @@
   align-self: center;
   display: flex;
   font-size: 14px;
+  justify-content: space-around;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -22,3 +26,4 @@
   transform: translate(-50%, -50%);
   width: 50px;
 }
+

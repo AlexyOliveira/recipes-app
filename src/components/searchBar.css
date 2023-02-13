@@ -9,6 +9,7 @@ flex-direction: column; */
   margin: 0 10px 10px;
   padding-bottom: 10px;
   text-align: center;
+  width: 90%;
 }
 
 .searchBar button {
@@ -26,4 +27,29 @@ flex-direction: column; */
   display: flex;
   justify-content: space-evenly;
   padding: 10px;
+}
+
+@media ( min-width : 575.98px ) {
+
+
+  .searchBar {
+    width: 85%;
+
+  }
+}
+
+
+@media ( min-width : 767.98px ) {
+
+  .searchBar {
+    width: 80%;
+  }
+}
+
+
+@media ( min-width : 991.98px ) {
+
+  .searchBar {
+    width: 50%;
+  }
 }

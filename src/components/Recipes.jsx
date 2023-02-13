@@ -20,11 +20,11 @@ class Recipes extends Component {
 
     const keys = Object.keys(value[0]);
     return (
-      <div className="card-group cardContainer">
+      <div className=" cardContainer">
         {keys.includes('strMeal')
           ? value.map((meal, index) => (
             <div
-              className="card cardStyle"
+              className="card cardStyle mb-3"
               tabIndex="0"
               onClick={ () => this.handleCardClick(`meal.${meal.idMeal}`) }
               onKeyPress={ (e) => {
@@ -49,7 +49,7 @@ class Recipes extends Component {
           ))
           : value.map((drink, index) => (
             <div
-              className="card cardStyle"
+              className="card cardStyle mb-3"
               tabIndex="0"
               onClick={ () => this.handleCardClick(`drink.${drink.idDrink}`) }
               onKeyPress={ (e) => {

@@ -18,3 +18,7 @@ footer input {
   color: #6e28d6;
   font-size: 20px;
 }
+
+.footer-container {
+  width: 100%;
+}

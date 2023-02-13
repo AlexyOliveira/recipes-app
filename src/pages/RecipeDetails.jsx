@@ -161,46 +161,48 @@ function RecipeDetails() {
               </div>
             </div>
           </div>
-          <h3 className="ingre">Ingredients</h3>
-          <div className="ingredients">
-            <ul>
-              {Object.keys(item)
-                .reduce((acc, key) => {
-                  if (
-                    key.includes('Ingredient')
+          <div className="glob">
+            <h3 className="ingre">Ingredients</h3>
+            <div className="ingredients">
+              <ul>
+                {Object.keys(item)
+                  .reduce((acc, key) => {
+                    if (
+                      key.includes('Ingredient')
                     && item[key] !== ''
                     && item[key] !== null
-                  ) {
-                    return [...acc, item[key]];
-                  }
-                  return acc;
-                }, [])
-                .map((ingredient, i) => (
-                  <li key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
-                    {`${ingredient} - ${item[`strMeasure${i + 1}`]}`}
-                  </li>
-                ))}
-            </ul>
+                    ) {
+                      return [...acc, item[key]];
+                    }
+                    return acc;
+                  }, [])
+                  .map((ingredient, i) => (
+                    <li key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
+                      {`${ingredient} - ${item[`strMeasure${i + 1}`]}`}
+                    </li>
+                  ))}
+              </ul>
+            </div>
+            <h3>Instructions</h3>
+            <div className="instructions">
+              <p data-testid="instructions">{item.strInstructions}</p>
+            </div>
+            {/* use replace in the video to work */}
+            {item.strYoutube && (
+              <>
+                <h3>Video</h3>
+                <iframe
+                  data-testid="video"
+                  title="recipe"
+                  width="360"
+                  height="315"
+                  src={ `https://www.youtube.com/embed/${item.strYoutube.slice(
+                    magicNumber,
+                  )}` }
+                />
+              </>
+            )}
           </div>
-          <h3>Instructions</h3>
-          <div className="instructions">
-            <p data-testid="instructions">{item.strInstructions}</p>
-          </div>
-          {/* use replace in the video to work */}
-          {item.strYoutube && (
-            <>
-              <h3>Video</h3>
-              <iframe
-                data-testid="video"
-                title="recipe"
-                width="360"
-                height="315"
-                src={ `https://www.youtube.com/embed/${item.strYoutube.slice(
-                  magicNumber,
-                )}` }
-              />
-            </>
-          )}
         </div>
       ))}
       <h3>Recomendations</h3>

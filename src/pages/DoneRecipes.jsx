@@ -50,7 +50,9 @@ function DoneRecipes() {
     const doneRecipes = localStorage.getItem('doneRecipes');
     if (doneRecipes) {
       const donesJson = JSON.parse(doneRecipes);
-      const doneMeals = donesJson.filter((favorite) => favorite.type === 'meal');
+      const doneMeals = donesJson.filter(
+        (favorite) => favorite.type === 'meal',
+      );
       setDones(doneMeals);
     }
   };
@@ -59,7 +61,9 @@ function DoneRecipes() {
     const doneRecipes = localStorage.getItem('doneRecipes');
     if (doneRecipes) {
       const donesJson = JSON.parse(doneRecipes);
-      const doneDrinks = donesJson.filter((favorite) => favorite.type === 'drink');
+      const doneDrinks = donesJson.filter(
+        (favorite) => favorite.type === 'drink',
+      );
       setDones(doneDrinks);
     }
   };
@@ -68,7 +72,7 @@ function DoneRecipes() {
     <div style={ { background: 'whitesmoke' } }>
       <Header history={ history } />
       <div className="doneContainer">
-        <div className="favCategories">
+        <div className="done-categories">
           <label htmlFor="allId">
             <input
               id="allId"
@@ -107,65 +111,65 @@ function DoneRecipes() {
             <p>Drinks</p>
           </label>
         </div>
-
-        {dones.map((card, index) => (
-          <div key={ index } className="card doneCard">
-            {' '}
-            <Link id="imagem" to={ `/${card.type}s/${card.id}` }>
-              <img
-                className="doneImg"
-                id="img"
-                data-testid={ `${index}-horizontal-image` }
-                src={ card.image }
-                alt={ card.img }
-              />
-            </Link>
-            <div className="doneInfo">
-              <h2 data-testid={ `${index}-horizontal-top-text` }>
-                {card.type === 'drink'
-                  ? card.category
-                  : `${card.nationality} - ${card.category}`}
-              </h2>
-              {card.type === 'drink' && (
-                <p data-testid={ `${index}-horizontal-top-text` }>
-                  {card.alcoholicOrNot}
-                </p>
-              )}
-              <Link className="cardType" to={ `/${card.type}s/${card.id}` }>
-                <p data-testid={ `${index}-horizontal-name` }>{card.name}</p>
+        <div className="done-cards-container">
+          {dones.map((card, index) => (
+            <div key={ index } className=" doneCard">
+              {' '}
+              <Link id="imagem" to={ `/${card.type}s/${card.id}` }>
+                <img
+                  className="doneImg"
+                  id="img"
+                  data-testid={ `${index}-horizontal-image` }
+                  src={ card.image }
+                  alt={ card.img }
+                />
               </Link>
-              <div>
-                {card.tags.map((tag) => (
-                  <span
-                    key={ tag }
-                    data-testid={ `${index}-${tag}-horizontal-tag` }
-                  >
-                    {tag}
-                  </span>
-                ))}
+              <div className="doneInfo">
+                <h2 data-testid={ `${index}-horizontal-top-text` }>
+                  {card.type === 'drink'
+                    ? card.category
+                    : `${card.nationality} - ${card.category}`}
+                </h2>
+                {card.type === 'drink' && (
+                  <p data-testid={ `${index}-horizontal-top-text` }>
+                    {card.alcoholicOrNot}
+                  </p>
+                )}
+                <Link className="cardType" to={ `/${card.type}s/${card.id}` }>
+                  <p data-testid={ `${index}-horizontal-name` }>{card.name}</p>
+                </Link>
+                <div>
+                  {card.tags.map((tag) => (
+                    <span
+                      key={ tag }
+                      data-testid={ `${index}-${tag}-horizontal-tag` }
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <p data-testid={ `${index}-horizontal-done-date` }>
+                  Done in:
+                  {' '}
+                  {(() => {
+                    const date = card.doneDate.split('T')[0].split('-');
+                    return `${date[2]}-${date[1]}-${date[0]}`;
+                  })()}
+                </p>
               </div>
-              <p data-testid={ `${index}-horizontal-done-date` }>
-                Done in:
-                {' '}
-                {(() => {
-                  const date = card.doneDate.split('T')[0].split('-');
-                  return `${date[2]}-${date[1]}-${date[0]}`;
-                })()}
-              </p>
+              <button
+                className="btn btn-warning"
+                onClick={ () => clipBoardCopyUrl(card.id, card.type) }
+                src={ shareIcon }
+                data-testid={ `${index}-horizontal-share-btn` }
+                type="button"
+              >
+                <img src={ shareIcon } alt="" />
+              </button>
+              {copiado && <p className="copied">Link copied!</p>}
             </div>
-            <button
-              className="btn btn-warning"
-              onClick={ () => clipBoardCopyUrl(card.id, card.type) }
-              src={ shareIcon }
-              data-testid={ `${index}-horizontal-share-btn` }
-              type="button"
-            >
-              <img src={ shareIcon } alt="" />
-            </button>
-            {copiado && <p className="copied">Link copied!</p>}
-
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

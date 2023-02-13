@@ -110,7 +110,7 @@ class Drinks extends Component {
                     alt="all"
                     src={ allDrink }
                   />
-                  All
+                  <p>All</p>
                 </label>
                 {drinkCategories.map((categorie, index) => (
                   <label key={ index } htmlFor="id">
@@ -134,7 +134,7 @@ class Drinks extends Component {
                       alt={ categorie.strCategory }
                       onClick={ this.handleCategorieClick }
                     />
-                    {categorie.strCategory}
+                    <p>{categorie.strCategory}</p>
                   </label>
                 ))}
               </div>
@@ -154,6 +154,7 @@ Drinks.propTypes = {
   drinks: PropTypes.arrayOf(PropTypes.shape({ strIBA: PropTypes.string }))
     .isRequired,
   dispatch: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,

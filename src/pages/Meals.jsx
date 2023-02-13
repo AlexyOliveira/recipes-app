@@ -109,7 +109,7 @@ class Meals extends Component {
                     alt="all"
                     src={ all }
                   />
-                  All
+                  <p>All</p>
                 </label>
                 {mealsCategories.map((categorie, index) => (
                   <label key={ index } htmlFor="id">
@@ -131,11 +131,12 @@ class Meals extends Component {
                       name={ categorie.strCategory }
                       alt={ categorie.strCategory }
                     />
-                    {categorie.strCategory}
+                    <p>{categorie.strCategory}</p>
                   </label>
                 ))}
               </div>
               <Recipes value={ meals } />
+
             </div>)
 
         }

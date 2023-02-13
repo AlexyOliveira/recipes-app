@@ -162,7 +162,7 @@ function RecipesInProgress() {
     }
   };
   return (
-    <div className="recipeDetailsContainer bg-white">
+    <div className="recipeDetailsContainer">
       {copiado && <span className="copied">Link copied!</span>}
 
       {recipe.length > 0
@@ -214,53 +214,57 @@ function RecipesInProgress() {
                 </div>
               </div>
             </div>
-            <h3>Ingredients</h3>
-            <div className="ingredients m-2 mb-4">
-              <ul className="ingredient-checkbox">
-                {Object.keys(item)
-                  .reduce((acc, key) => {
-                    if (
-                      key.includes('Ingredient')
+            <div className="glob">
+              <h3>Ingredients</h3>
+              <div className="ingredients m-2 mb-4">
+                <ul className="ingredient-checkbox">
+                  {Object.keys(item)
+                    .reduce((acc, key) => {
+                      if (
+                        key.includes('Ingredient')
                     && item[key] !== ''
                     && item[key] !== null
-                    ) {
-                      return [...acc, item[key]];
-                    }
-                    return acc;
-                  }, [])
-                  .map((ingredient, i) => (
-                    <li key={ i }>
+                      ) {
+                        return [...acc, item[key]];
+                      }
+                      return acc;
+                    }, [])
+                    .map((ingredient, i) => (
+                      <li key={ i }>
 
-                      <label
-                        htmlFor={ ingredient }
-                        data-testid={ `${i}-ingredient-step` }
-                        style={
-                          storage.length > 0 && storage.includes(ingredient)
-                            ? { textDecoration: stylito }
-                            : { textDecoration: 'none' }
-                        }
-                      >
-                        <input
-                          className="check"
-                          type="checkbox"
-                          onClick={ riscaCheckboxes }
-                          id={ ingredient }
-                        />
-                        {ingredient}
-                      </label>
-                    </li>
-                  ))}
-              </ul>
+                        <label
+                          htmlFor={ ingredient }
+                          data-testid={ `${i}-ingredient-step` }
+                          style={
+                            storage.length > 0 && storage.includes(ingredient)
+                              ? { textDecoration: stylito }
+                              : { textDecoration: 'none' }
+                          }
+                        >
+                          <input
+                            className="check"
+                            type="checkbox"
+                            onClick={ riscaCheckboxes }
+                            id={ ingredient }
+                          />
+                          {ingredient}
+                        </label>
+                      </li>
+                    ))}
+                </ul>
 
-              <h3>Instructions</h3>
-              <div className="instructions">
-                <p data-testid="instructions">{item.strInstructions}</p>
+                <h3>Instructions</h3>
+                <div className="instructions">
+                  <p data-testid="instructions">{item.strInstructions}</p>
+                </div>
+
               </div>
               {/* use replace in the video to work */}
               {item.strYoutube && (
                 <>
                   <h3>Video</h3>
                   <iframe
+                    className="iframe"
                     data-testid="video"
                     title="recipe"
                     width="360"
