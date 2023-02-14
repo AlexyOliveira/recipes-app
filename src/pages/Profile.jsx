@@ -52,7 +52,7 @@ function Profile() {
               Favorite Recipes
             </button>
           </Link>
-          <Link className="link" to="/">
+          <Link className="link" to="/recipes-app">
             <img className="profileLogOut" src={ logOut } alt="logOut" />
             <button
               className="btn"
