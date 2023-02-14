@@ -44,21 +44,12 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-
 }
 
 @media ( min-width : 500.98px ) {
 
   .doneCard {
     width: 100%;
-
-  }
-
-  .doneImg {
-    height: 250px;
-    object-fit: cover;
-    width: auto;
-
   }
 
 }
@@ -76,6 +67,11 @@
     width: auto;
 
   }
+
+  .doneContainer {
+    margin: 20px 160px;
+
+  }
 }
 
 
@@ -91,6 +87,12 @@
     width: auto;
 
   }
+
+  .doneContainer {
+    margin: 20px 200px;
+
+  }
+
 
 }
 
