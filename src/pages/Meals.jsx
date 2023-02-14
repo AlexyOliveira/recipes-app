@@ -125,12 +125,20 @@ class Meals extends Component {
                       data-testid={ `${categorie.strCategory}-category-filter` }
                       type="image"
                       src={ (() => {
-                        if (categorie.strCategory === 'Beef') return beef;
-                        if (categorie.strCategory === 'Goat') return goat;
-                        if (categorie.strCategory === 'Chicken') return chicken;
-                        if (categorie.strCategory === 'Breakfast') return breakFast;
-                        if (categorie.strCategory === 'Dessert') return dessert;
-                        return null;
+                        switch (categorie.strCategory) {
+                        case 'Beef':
+                          return beef;
+                        case 'Goat':
+                          return goat;
+                        case 'Chicken':
+                          return chicken;
+                        case 'Breakfast':
+                          return breakFast;
+                        case 'Dessert':
+                          return dessert;
+                        default:
+                          return null;
+                        }
                       })() }
                       key={ index }
                       onClick={ this.handleCategorieClick }

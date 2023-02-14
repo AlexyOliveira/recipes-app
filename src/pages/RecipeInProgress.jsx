@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import FinishRecipeButton from '../components/FinishRecipeButton';
 import { getMealById, getDrinkById } from '../services/api';
 import './meals.css';
 
 const magicNumber = -11;
 const fiveSeconds = 5000;
-
 function RecipesInProgress() {
   const location = useLocation();
   const typeLocation = location.pathname.split('/')[1];
   const id = location.pathname.split('/')[2];
-
   const [recipe, setRecipe] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [storage, setStorage] = useState([]);
   const [copiado, setCopiado] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
-
   const stylito = 'line-through solid rgb(0, 0, 0)';
-
   useEffect(() => {
     const getRecipe = async () => {
       if (typeLocation === 'meals') {
@@ -31,7 +28,6 @@ function RecipesInProgress() {
     };
     getRecipe();
   }, [id, typeLocation]);
-
   useEffect(() => {
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (favoriteRecipes !== null) {
@@ -41,7 +37,6 @@ function RecipesInProgress() {
       }
     }
   }, [id]);
-
   useEffect(() => {
     const progressStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (progressStorage === null) {
@@ -59,9 +54,7 @@ function RecipesInProgress() {
     } else if (progressStorage !== null && recipe.length > 0) {
       const getNewStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
       const storageId = getNewStorage[typeLocation][id];
-
       const checkbox = document.querySelectorAll('input[type="checkbox"]');
-
       checkbox.forEach((item) => {
         if (storageId.includes(item.parentNode.innerText)) {
           item.checked = true;
@@ -72,7 +65,6 @@ function RecipesInProgress() {
   }, [recipe, id, typeLocation]);
   const riscaCheckboxes = ({ target }) => {
     const getStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
-
     if (target.checked) {
       target.parentNode.style.textDecoration = stylito;
       localStorage.setItem('inProgressRecipes', JSON.stringify({
@@ -96,7 +88,6 @@ function RecipesInProgress() {
       target.parentNode.style.textDecoration = 'none';
     }
   };
-
   const handleFavorite = () => {
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     const { strMeal, strDrink, strCategory, strArea,
@@ -116,11 +107,9 @@ function RecipesInProgress() {
       setIsFavorite(false);
     } else {
       localStorage.setItem('favoriteRecipes', JSON.stringify([favorite]));
-
       setIsFavorite(true);
     }
   };
-
   const handleShare = () => {
     setCopiado(true);
     setTimeout(() => {
@@ -140,27 +129,6 @@ function RecipesInProgress() {
       setIsDisabled(true);
     }
   }, [isDisabled, storage]);
-  const doneRecipe = () => {
-    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-    const { strMeal, strDrink, strCategory, strArea,
-      strAlcoholic, strMealThumb, strDrinkThumb } = recipe[0];
-    const done = {
-      id,
-      type: typeLocation === 'meals' ? 'meal' : 'drink',
-      category: strCategory || '',
-      alcoholicOrNot: strAlcoholic || '',
-      name: strMeal || strDrink,
-      image: strMealThumb || strDrinkThumb,
-      nationality: strArea || '',
-      doneDate: new Date(),
-      tags: recipe[0].strTags ? recipe[0].strTags.split(',') : [],
-    };
-    if (doneRecipes === null) {
-      localStorage.setItem('doneRecipes', JSON.stringify([done]));
-    } else {
-      localStorage.setItem('doneRecipes', JSON.stringify([...doneRecipes, done]));
-    }
-  };
   return (
     <div className="recipeDetailsContainer">
       {recipe.length > 0
@@ -191,9 +159,8 @@ function RecipesInProgress() {
                   role="button"
                 >
                   <i className="fa-solid fa-share-from-square shareButton" />
-                  {copiado && <span className="copied">Link copied!</span>}
+                  {copiado && <span className="done-copied">Link copied!</span>}
                 </div>
-
                 <div
                   onClick={ handleFavorite }
                   data-testid="favorite-btn"
@@ -230,7 +197,6 @@ function RecipesInProgress() {
                     }, [])
                     .map((ingredient, i) => (
                       <li key={ i }>
-
                         <label
                           htmlFor={ ingredient }
                           data-testid={ `${i}-ingredient-step` }
@@ -275,21 +241,10 @@ function RecipesInProgress() {
                 </>
               )}
             </div>
-            <Link to="/done-recipes">
-              <button
-                className="start-recipe-btn"
-                type="button"
-                data-testid="finish-recipe-btn"
-                disabled={ isDisabled }
-                onClick={ doneRecipe }
-              >
-                Finish Recipe
-              </button>
-            </Link>
+            <FinishRecipeButton values={ [isDisabled, recipe] } />
           </div>
         ))}
     </div>
   );
 }
-
 export default RecipesInProgress;

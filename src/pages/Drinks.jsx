@@ -126,14 +126,20 @@ class Drinks extends Component {
                       data-testid={ `${categorie.strCategory}-category-filter` }
                       type="image"
                       src={ (() => {
-                        if (categorie.strCategory === 'Ordinary Drink') {
+                        switch (categorie.strCategory) {
+                        case 'Ordinary Drink':
                           return ordinaryDrink;
+                        case 'Cocktail':
+                          return cocktail;
+                        case 'Shake':
+                          return shake;
+                        case 'Other / Unknown':
+                          return other;
+                        case 'Cocoa':
+                          return cocoa;
+                        default:
+                          return null;
                         }
-                        if (categorie.strCategory === 'Cocktail') return cocktail;
-                        if (categorie.strCategory === 'Shake') return shake;
-                        if (categorie.strCategory === 'Other / Unknown') return other;
-                        if (categorie.strCategory === 'Cocoa') return cocoa;
-                        return null;
                       })() }
                       key={ index }
                       name={ categorie.strCategory }
