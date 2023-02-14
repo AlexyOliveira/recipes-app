@@ -54,6 +54,7 @@ class Login extends Component {
             <div className="imputs">
               <input
                 className="inputForm"
+                placeholder="Email"
                 onChange={ this.handleChange }
                 data-testid="email-input"
                 type="email"
@@ -62,6 +63,7 @@ class Login extends Component {
               />
               <input
                 className="inputForm"
+                placeholder="Password"
                 onChange={ this.handleChange }
                 data-testid="password-input"
                 type="password"
