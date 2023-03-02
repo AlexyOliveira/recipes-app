@@ -26,6 +26,7 @@ function App() {
           exact
           path="/meals/:id/in-progress"
           component={ RecipesInProgress }
+
         />
         <Route
           exact
